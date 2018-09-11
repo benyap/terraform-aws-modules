@@ -9,3 +9,7 @@ variable "account_id" {
 variable "terraform_role_name" {
   description = "The name of the role to assume"
 }
+
+variable "external_access_role_name" {
+  description = "The name of the role given to external users"
+}
