@@ -51,7 +51,7 @@ This list should include the root account `arn:aws:iam::${var.account_id}:root`.
 
 ## Pre-requisites
 
-To apply this configuration, you require the following permissions:
+To apply this configuration, you require the following permissions on the IAM user used to run this configuration:
 
 ```json
 {
