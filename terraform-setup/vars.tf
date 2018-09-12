@@ -12,8 +12,10 @@ variable "backend_bucket_name" {
 
 variable "terraform_role_name" {
   description = "The name of the role for Terraform users"
+  default     = "terraform.role"
 }
 
 variable "terraform_group_name" {
   description = "The name of the group for Terraform users"
+  default     = "terraform-users"
 }

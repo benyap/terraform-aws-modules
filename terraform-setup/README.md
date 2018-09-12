@@ -1,14 +1,28 @@
 # Terraform set up
 
-This configuration sets up the scaffolding for Terraform to be able to manage your infrastructure using good AWS IAM practices. This configuration should be run **ONCE** using an IAM user with full administrator access, which can be deleted afterwards.
+This module sets up the scaffolding for Terraform to be able to manage your infrastructure using good AWS IAM practices. This module should be run **ONCE** using an IAM user with full administrator access, which can be deleted afterwards.
 
-This configuration creates the following:
+This module creates the following:
 
 - An S3 bucket which Terraform can use to store its state
 
 - An IAM role for Terraform to assume (by default, only permission to access the S3 state bucket is given)
 
 - A group for IAM users that Terraform can use, giving it access to the S3 state bucket and permission to switch to the Terraform role
+
+To use this module in your configuration, use this repository subdirectory as a source:
+
+```hcl
+module "MODULE_NAME" {
+  source = "git@github.com:bwyap/terraform-aws-modules.git//terraform-setup"
+
+  aws_region            = "${var.aws_region}"
+  account_id            = "${var.account_id}"
+  backend_bucket_name   = "${var.backend_bucket_name}"
+  terraform_role_name   = "${var.terraform_role_name}"
+  terraform_group_name  = "${var.terraform_group_name}"
+}
+```
 
 
 ## Variables required in `terraform.tfvars`
@@ -22,6 +36,19 @@ This configuration creates the following:
 - `terraform_role_name`: The name of the Terraform role
 
 - `terraform_group_name`: The name of the group for Terraform users
+
+
+## Outputs
+
+- `terraform_role_arn`
+
+- `terraform_role_name`
+
+- `terraform_role_unique_id`
+
+- `terraform_role_description`
+
+- `terraform_ole_create_date`
 
 
 ## Pre-requisites
