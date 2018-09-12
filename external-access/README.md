@@ -3,43 +3,95 @@
 This module sets up the external trust relationships for this account.
 This allows users to assume a role within this account from an external account.
 Note that the role by default will have no policies attached to it.
-You can customise this by adding policy attachments in `main.tf`.
 
+To use this module in your configuration, use this repository as a source:
+
+```hcl
+module "MODULE_NAME" {
+  source = "git@github.com:bwyap/terraform-aws-modules.git//external-access"
+
+  aws_region                = "${var.aws_region}"
+  account_id                = "${var.account_id}"
+  terraform_role_name       = "${var.terraform_role_name}"
+  external_access_role_name = "${var.external_access_role_name}"
+
+  allowed_arns = [
+    "arn:aws:iam::${var.account_id}:root",
+    ...
+  ]
+}
+```
 
 ## Variables required in `terraform.tfvars`
 
-- `aws_region`: The region the AWS resources will be created in
+- `aws_region`: The region the AWS resources will be created in.
 
-- `account_id`: The account ID fo the root AWS account
+- `account_id`: The account ID fo the root AWS account.
 
-- `terraform_role_name`: The name of the role that Terraform will use
+- `terraform_role_name`: The name of the role that Terraform will use.
 
-- `external_access_role_name`: The name of the role given to the external users
+- `external_access_role_name`: The name of the role given to the external users.
 
-
-## Variables required in `main.tf`
-
-- `allowed_arns`: the list of ARNs of IAM users that will be given access to this account.
+- `allowed_arns`: A list of ARNs of IAM users that are allowed to assume the external access role.
 This list should include the root account `arn:aws:iam::${var.account_id}:root`.
-Find this variable in the `external-trust-relationship` module.
+
+
+## Outputs
+
+- `role_arn`
+
+- `role_name`
+
+- `role_unique_id`
+
+- `role_description`
+
+- `role_create_date`
 
 
 ## Pre-requisites
 
-1. Run the `terraform-setup` configuration to create the appropriate roles and permissions. Assign administrator permissions to the `terraform.admin` role.
+To apply this configuration, you require the following permissions:
 
-2. Set up an IAM user account add it to the group `terraform-users`. This will allow Terraform to assume the `terraform.admin` role to provision the necessary resources. Add the user's credentials to ~/.aws/credentials like so:
-
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:GetRole",
+        "iam:AttachRolePolicy",
+        "iam:ListAttachedRolePolicies"
+      ],
+      "Resource": [
+        "arn:aws:iam::${account_id}:role/${external_access_role_name}"
+      ]
+    }
+  ]
+}
 ```
-[PROFILE_NAME]
-aws_access_key_id=********************
-aws_secret_access_key=****************************************
-```
 
-3. Set the `AWS_PROFILE` variable to use the profile from step 2.
+To destroy this configuration, you require the following permissions:
 
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetRole",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListInstanceProfilesForRole",
+        "iam:DetachRolePolicy",
+        "iam:DeleteRole"
+      ],
+      "Resource": [
+        "arn:aws:iam::${account_id}:role/${external_access_role_name}"
+      ]
+    }
+  ]
+}
 ```
-export AWS_PROFILE=PROFILE_NAME
-```
-
-4. You are now ready to run this Terraform configuration.
