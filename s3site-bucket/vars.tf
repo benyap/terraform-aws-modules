@@ -20,5 +20,5 @@ variable "error_document" {
 
 variable "routing_rules" {
   description = "Routing rules for the S3 website"
-  default = {}
+  default = "[]"
 }
