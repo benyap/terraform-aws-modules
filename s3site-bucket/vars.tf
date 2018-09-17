@@ -1,5 +1,5 @@
-variable "region" {
-  description = "The region the website bucket will reside in"
+variable "aws_region" {
+  description = "The AWS region the website bucket will reside in"
 }
 
 variable "bucket_name" {

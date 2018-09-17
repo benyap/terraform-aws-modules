@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "s3site-bucket-policy" {
 resource "aws_s3_bucket" "s3site-bucket" {
   bucket    = "${var.bucket_name}"
   policy    = "${data.aws_iam_policy_document.s3site-bucket-policy.json}"
-  region    = "${var.region}"
+  region    = "${var.aws_region}"
 
   website {
     index_document  = "${var.index_document}"
