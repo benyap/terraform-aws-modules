@@ -22,21 +22,3 @@ variable "routing_rules" {
   description = "Routing rules for the S3 website"
   default     = ""
 }
-
-variable "tags" {
-  type        = "map"
-  description = "Optional tags"
-  default     = {}
-}
-
-variable "project_tag" {
-  description = "The value for the tag 'Project'"
-}
-
-variable "environment_tag" {
-  description = "The value for tag 'Environment'"
-}
-
-variable "domain_tag" {
-  description = "The value for the tag 'Domain'"
-}
