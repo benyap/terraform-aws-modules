@@ -21,9 +21,9 @@ module "MODULE_NAME" {
 
 - `record_zone_id`: The ID of the hosted zone in which the domain record is in.
 
-- `cdn_zone_id`: The ID of the hosted zone where the CloudFront distribution is in.
-
 - `domain_name`: The name of the domain for this record.
+
+- `cdn_zone_id`: The ID of the hosted zone where the CloudFront distribution is in.
 
 - `cdn_domain_name`: The domain for the CloudFront distribution this record should point to.
 
