@@ -32,6 +32,14 @@ module "MODULE_NAME" {
 }
 ```
 
+**NOTE**: Sometimes, the SSL certificate does not finish validating before the Cloudfront distribution is created, causing Terraform to abort with the following error:
+
+```
+error creating CloudFront Distribution: InvalidViewerCertificate: The specified SSL certificate doesn't exist, isn't in us-east-1 region, isn't valid, or doesn't include a valid certificate chain.
+```
+
+To resolve this issue, simply run `terraform apply` again.
+
 ## Required variables
 - `aws_region`: The name of the AWS region.
 
