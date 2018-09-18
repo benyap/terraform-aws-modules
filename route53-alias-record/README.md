@@ -11,8 +11,8 @@ module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//route53-alias-record"
 
   record_zone_id  = "${var.record_zone_id}"
-  cdn_zone_id     = "${var.cdn_zone_id}"
   domain_name     = "${var.domain_name}"
+  cdn_zone_id     = "${var.cdn_zone_id}"
   cdn_domain_name = "${var.cdn_domain_name}"
 }
 ```
