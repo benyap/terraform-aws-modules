@@ -3,7 +3,7 @@
 #######################
 
 # Create policy which allows public access to bucket contents
-data "aws_iam_policy_document" "s3site-bucket-policy" {
+data "aws_iam_policy_document" "s3-site-bucket-policy" {
   statement {
     sid     = "AllowPublicRead"
     effect  = "Allow"
@@ -24,17 +24,15 @@ data "aws_iam_policy_document" "s3site-bucket-policy" {
 }
 
 # Create the S3 bucket for static website hosting
-resource "aws_s3_bucket" "s3site-bucket" {
+resource "aws_s3_bucket" "s3-site-bucket" {
   bucket    = "${var.bucket_name}"
-  policy    = "${data.aws_iam_policy_document.s3site-bucket-policy.json}"
+  policy    = "${data.aws_iam_policy_document.s3-site-bucket-policy.json}"
   region    = "${var.aws_region}"
   acl       = "public-read"
 
   tags = "${merge("${var.tags}", map("Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}", "Environment", "${var.environment_tag}", "Project", "${var.project_tag}"))}"
 
   website {
-    index_document  = "${var.index_document}"
-    error_document  = "${var.error_document}"
-    routing_rules   = "${var.routing_rules}"
+    redirect_all_requests_to = "${var.redirect_protocol}://${var.redirect_target}"
   }
 }

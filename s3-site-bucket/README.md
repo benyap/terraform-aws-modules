@@ -7,7 +7,7 @@ To use this module in your configuration, use this repository as a source:
 ```hcl
 # Example usage
 module "MODULE_NAME" {
-  source = "git@github.com:bwyap/terraform-aws-modules.git//s3site-bucket"
+  source = "git@github.com:bwyap/terraform-aws-modules.git//s3-site-bucket"
 
   aws_region      = "${var.aws_region}"
   bucket_name     = "${var.bucket_name}"
