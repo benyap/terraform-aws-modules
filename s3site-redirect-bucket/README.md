@@ -17,7 +17,7 @@ module "MODULE_NAME" {
 
   project_tag     = "${var.project_tag}"
   environment_tag = "${var.environment_tag}"
-  domain_tag      = "${var.domain_tag}"
+  type_tag        = "${var.type_tag}"
 }
 ```
 
@@ -37,7 +37,7 @@ module "MODULE_NAME" {
 
 - `environment_tag`: The value for tag 'Environment'.
 
-- `domain_tag`: The value for tag 'Domain'.
+- `type_tag`: The value for tag 'Type'.
 
 
 ## Optional variables

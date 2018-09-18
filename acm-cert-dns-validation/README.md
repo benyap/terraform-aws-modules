@@ -16,7 +16,7 @@ module "MODULE_NAME" {
 
   project_tag     = "${var.project_tag}"
   environment_tag = "${var.environment_tag}"
-  domain_tag      = "${var.domain_tag}"
+  type_tag        = "${var.type_tag}"
 }
 ```
 
@@ -29,6 +29,12 @@ module "MODULE_NAME" {
 - `domain_name`: The name of the domain for this ACM certificate.
 
 - `hosted_zone_id`: The ID of the hosted zone in which the domain's Route53 record is in.
+
+- `project_tag`: The value for tag 'Project'.
+
+- `environment_tag`: The value for tag 'Environment'.
+
+- `type_tag`: The value for tag 'Type'.
 
 
 ## Optional variables

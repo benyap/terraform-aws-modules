@@ -20,7 +20,7 @@ module "MODULE_NAME" {
 
   project_tag     = "${var.project_tag}"
   environment_tag = "${var.environment_tag}"
-  domain_tag      = "${var.domain_tag}"
+  type_tag        = "${var.type_tag}"
 }
 ```
 
@@ -39,6 +39,12 @@ module "MODULE_NAME" {
 - `error_document`: The error document file name for the site.
 
 - `domain_alias`: Alternate domain name (CNAME) for this distribution.
+
+- `project_tag`: The value for tag 'Project'.
+
+- `environment_tag`: The value for tag 'Environment'.
+
+- `type_tag`: The value for tag 'Type'.
 
 
 ## Optional variables
