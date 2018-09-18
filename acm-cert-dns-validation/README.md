@@ -53,7 +53,7 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["s3:*"],
+      "Action": ["acm:*"],
       "Resource": ["*"]
     }
   ]
