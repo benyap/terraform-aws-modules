@@ -14,7 +14,7 @@ module "site-bucket" {
 
   project_tag     = "${var.domain_name}"
   environment_tag = "${var.environment_tag}"
-  type_tag        = "s3bucket"
+  type_tag        = "s3_bucket"
 }
 
 module "site-cert" {
@@ -33,9 +33,9 @@ module "site-cert" {
 module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//cloudfront-distribution"
 
-  bucket_id           = "${module.benyap-site-dev.bucket_id}"
-  website_endpoint    = "${module.benyap-site-dev.website_endpoint}"
-  certificate_arn     = "${module.benyap-site-dev-cert.certificate_arn}"
+  bucket_id           = "${module.site-bucket.bucket_id}"
+  website_endpoint    = "${module.site-bucket.website_endpoint}"
+  certificate_arn     = "${module.site-cert.certificate_arn}"
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
   domain_alias        = "${var.domain_env_prefix}${var.domain_name}"
@@ -51,6 +51,6 @@ module "site-a-record" {
 
   record_zone_id  = "${var.hosted_zone_id}"
   domain_name     = "${var.domain_env_prefix}${var.domain_name}"
-  cdn_zone_id     = "${module.benyap-site-dev-cdn.hosted_zone_id}"
-  cdn_domain_name = "${module.benyap-site-dev-cdn.cdn_domain_name}"
+  cdn_zone_id     = "${module.site-cdn.hosted_zone_id}"
+  cdn_domain_name = "${module.site-cdn.cdn_domain_name}"
 }
