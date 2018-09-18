@@ -19,7 +19,7 @@ provider "aws" {
 resource "aws_acm_certificate" "cert" {
   domain_name = "${var.domain_name}"
   validation_method = "DNS"
-  tags = "${merge("${var.tags}", map("Name", "${var.project_tag}-${var.environment_tag}-${var.domain_tag}", "Environment", "${var.environment_tag}", "Project", "${var.project_tag}"))}"
+  tags = "${merge("${var.tags}", map("Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}", "Environment", "${var.environment_tag}", "Project", "${var.project_tag}"))}"
 }
 
 resource "aws_route53_record" "cert-validation-record" {
