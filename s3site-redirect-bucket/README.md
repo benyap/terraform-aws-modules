@@ -21,7 +21,7 @@ module "MODULE_NAME" {
 }
 ```
 
-## Variables in `terraform.tfvars`
+## Required variables
 
 - `aws_region`: The AWS region the website bucket will reside in.
 
@@ -40,7 +40,7 @@ module "MODULE_NAME" {
 - `domain_tag`: The value for tag 'Domain'.
 
 
-## Optional variables in `terraform.tfvars`
+## Optional variables
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 

@@ -31,7 +31,7 @@ EOF
 }
 ```
 
-## Variables in `terraform.tfvars`
+## Required variables
 
 - `aws_region`: The AWS region the website bucket will reside in.
 
@@ -50,7 +50,7 @@ EOF
 - `domain_tag`: The value for tag 'Domain'.
 
 
-## Optional variables in `terraform.tfvars`
+## Optional variables
 
 - `routing_rules`: (OPTIONAL) Routing rules for the S3 website.
 

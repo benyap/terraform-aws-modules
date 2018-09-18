@@ -22,7 +22,7 @@ module "MODULE_NAME" {
 }
 ```
 
-## Variables required in `terraform.tfvars`
+## Required variables
 
 - `aws_region`: The region the AWS resources will be created in.
 
