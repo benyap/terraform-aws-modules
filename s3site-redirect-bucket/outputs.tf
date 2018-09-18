@@ -22,7 +22,3 @@ output "website_domain" {
   value = "${aws_s3_bucket.s3site-bucket.website_domain}"
 }
 
-output "name_tag" {
-  description = "The value of the 'Name' tag"
-  value = "${var.project_tag}-${var.environment_tag}-${var.domain_tag}"
-}
