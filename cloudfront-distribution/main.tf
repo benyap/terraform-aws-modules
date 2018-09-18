@@ -1,3 +1,7 @@
+#######################
+# Configuration
+#######################
+
 resource "aws_cloudfront_distribution" "domain-cdn" {
   enabled       = true
   price_class   = "PriceClass_All"
