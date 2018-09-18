@@ -53,7 +53,13 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["acm:*"],
+      "Action": [
+        "acm:*",
+        "route53:GetHostedZone",
+        "route53:ChangeResourceRecordSets",
+        "route53:GetChange",
+        "route53:ListResourceRecordSets"
+      ],
       "Resource": ["*"]
     }
   ]
