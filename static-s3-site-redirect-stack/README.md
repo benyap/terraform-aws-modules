@@ -25,7 +25,7 @@ module "MODULE_NAME" {
   domain_env_prefix = "${var.domain_env_prefix}"
   environment_tag   = "${var.environment_tag}"
   hosted_zone_id    = "${var.hosted_zone_id}"
-  redirect_target   = "${var.index_document}"
+  redirect_target   = "${var.redirect_target}"
   secret            = "${var.secret}"
 }
 ```
