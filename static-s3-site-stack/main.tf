@@ -30,16 +30,58 @@ module "site-cert" {
   type_tag        = "cert"
 }
 
+resource "aws_s3_bucket" "site-cdn-logging-bucket" {
+  bucket    = "logs.${var.domain_env_prefix}${var.domain_name}"
+  region    = "${var.aws_region}"
+  acl       = "log-delivery-write"
+
+  lifecycle_rule {
+    id      = "log-rule"
+    enabled = true
+    prefix  = "log-${var.domain_env_prefix}${var.domain_name}/"
+
+    transition {
+      days = 15
+      storage_class = "ONEZONE_IA"
+    }
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+  }
+  tags {
+    Project     = "${var.domain_name}"
+    Environment = "${var.environment_tag}"
+    Name        = "${var.domain_name}-${var.environment_tag}-cdn_logging_s3_bucket"
+  }
+}
+
 module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//cloudfront-distribution"
 
-  bucket_id           = "${module.site-bucket.bucket_id}"
+  origin_id           = "${module.site-bucket.bucket_id}"
   website_endpoint    = "${module.site-bucket.website_endpoint}"
+  duplicate_content_penalty_secret = "${var.secret}"
   certificate_arn     = "${module.site-cert.certificate_arn}"
+  domain_aliases      = [
+    "${var.domain_env_prefix}${var.domain_name}"
+  ]
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
-  domain_alias        = "${var.domain_env_prefix}${var.domain_name}"
-  duplicate_content_penalty_secret = "${var.secret}"
+
+  logging_enabled     = true
+  logging_bucket      = "${aws_s3_bucket.site-cdn-logging-bucket.id}"
+  logging_prefix      = "log-${var.domain_env_prefix}${var.domain_name}/"
 
   project_tag     = "${var.domain_name}"
   environment_tag = "${var.environment_tag}"

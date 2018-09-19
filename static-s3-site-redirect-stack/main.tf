@@ -32,13 +32,13 @@ module "site-cert" {
 module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//cloudfront-distribution"
 
-  bucket_id           = "${module.site-redirect-bucket.bucket_id}"
+  origin_id           = "${module.site-redirect-bucket.bucket_id}"
   website_endpoint    = "${module.site-redirect-bucket.website_endpoint}"
-  certificate_arn     = "${module.site-cert.certificate_arn}"
-  index_document      = ""
-  error_document      = ""
-  domain_alias        = "${var.domain_env_prefix}${var.domain_name}"
   duplicate_content_penalty_secret = "${var.secret}"
+  certificate_arn     = "${module.site-cert.certificate_arn}"
+  domain_aliases      = [
+    "${var.domain_env_prefix}${var.domain_name}"
+  ]
 
   project_tag     = "${var.domain_name}"
   environment_tag = "${var.environment_tag}"
