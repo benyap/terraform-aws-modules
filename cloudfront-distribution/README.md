@@ -10,13 +10,19 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//cloudfront-distribution"
 
-  bucket_id           = "${var.bucket_name}"
+  origin_id           = "${var.origin_id}"
   website_endpoint    = "${var.website_endpoint}"
   duplicate_content_penalty_secret = "${var.secret}"
   certificate_arn     = "${var.certificate_arn}"
+  domain_aliases      = [
+    "${var.domain_alias}"
+  ]
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
-  domain_alias        = "${var.domain_alias}"
+
+  logging_enabled     = true
+  logging_bucket      = "${var.logging_bucket}"
+  logging_prefix      = "${var.logging_prefix}"
 
   project_tag     = "${var.project_tag}"
   environment_tag = "${var.environment_tag}"
@@ -26,19 +32,13 @@ module "MODULE_NAME" {
 
 ## Required variables
 
-- `bucket_id`: The name of the S3 bucket the website is hosted on.
+- `origin_id`: The name for the origin.
 
-- `website_endpoint`: The endpoint URL for the S3 site.
+- `website_endpoint`: The endpoint URL for the distribution.
 
 - `duplicate_content_penalty_secret`: Value that will be used in a custom header for a CloudFront distribution to gain access to the origin S3 bucket.
 
 - `certificate_arn`: The id of an SSL certificate for this domain from AWS Certificate Manager.
-
-- `index_document`: The index document file name for the site.
-
-- `error_document`: The error document file name for the site.
-
-- `domain_alias`: Alternate domain name (CNAME) for this distribution.
 
 - `project_tag`: The value for tag 'Project'.
 
@@ -49,7 +49,21 @@ module "MODULE_NAME" {
 
 ## Optional variables
 
-- `forward_query_string`: (OPTIONAL) Forward the query string to the origin. Default is false.
+- `domain_aliases`: (OPTIONAL) Alternate domain names (CNAME) for this distribution (default is []).
+
+- `index_document`: (OPTIONAL) The index document file name for the site (default is "").
+
+- `error_document`: (OPTIONAL) The error document file name for the site (default is "").
+
+- `logging_enabled`: (OPTIONAL) Set this to true to enable logging to an S3 bucket (default is false).
+
+- `logging_bucket`: (OPTIONAL) The name of the S3 bucket to record logs in (default is "").
+
+- `logging_prefix`: (OPTIONAL) The prefix to attach to logs in the logging bucket (default is "").
+
+- `allowed_methods`: (OPTIONAL) The allowed methods for this distribution (default is all HTTP methods).
+
+- `forward_query_string`: (OPTIONAL) Forward the query string to the origin (default is false).
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 
