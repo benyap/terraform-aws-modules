@@ -1,7 +1,13 @@
 output "cdn_domain_name" {
-  value = "${var.logging_enabled ? aws_cloudfront_distribution.domain-cdn-with-logging.0.domain_name : aws_cloudfront_distribution.domain-cdn.0.domain_name}"
+  value = "${var.logging_enabled ?
+    element(aws_cloudfront_distribution.domain-cdn-with-logging.*.domain_name, 0) :
+    element(aws_cloudfront_distribution.domain-cdn.*.domain_name, 0)
+  }"
 }
 
 output "hosted_zone_id" {
-  value = "${var.logging_enabled ? aws_cloudfront_distribution.domain-cdn-with-logging.0.hosted_zone_id : aws_cloudfront_distribution.domain-cdn.0.hosted_zone_id}"
+  value = "${var.logging_enabled ?
+    element(aws_cloudfront_distribution.domain-cdn-with-logging.*.hosted_zone_id, 0) :
+    element(aws_cloudfront_distribution.domain-cdn.*.hosted_zone_id, 0)
+  }"
 }
