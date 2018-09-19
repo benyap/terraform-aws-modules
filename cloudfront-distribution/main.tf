@@ -113,7 +113,7 @@ resource "aws_cloudfront_distribution" "domain-cdn-with-logging" {
   }
 
   "default_cache_behavior" {
-    allowed_methods = ["${join("\",\"", var.allowed_methods)}"]
+    allowed_methods = ["${join(",", var.allowed_methods)}"]
     cached_methods  = ["GET", "HEAD"]
 
     "forwarded_values" {

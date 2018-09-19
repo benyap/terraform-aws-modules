@@ -41,12 +41,12 @@ resource "aws_s3_bucket" "site-cdn-logging-bucket" {
     prefix  = "log-${var.domain_env_prefix}${var.domain_name}/"
 
     transition {
-      days = 15
+      days = 30
       storage_class = "ONEZONE_IA"
     }
 
     transition {
-      days          = 30
+      days          = 60
       storage_class = "STANDARD_IA"
     }
 
