@@ -31,7 +31,7 @@ module "site-cert" {
 }
 
 resource "aws_s3_bucket" "site-cdn-logging-bucket" {
-  bucket    = "logs.${var.domain_env_prefix}${var.domain_name}.s3.amazonaws.com"
+  bucket    = "${var.domain_env_prefix}${var.domain_name}.s3.amazonaws.com"
   region    = "${var.aws_region}"
   acl       = "log-delivery-write"
 
