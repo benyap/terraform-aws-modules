@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "domain-cdn" {
     }
   }
 
-  aliases       = ["${join("\", \"", var.domain_aliases)}"]
+  aliases       = "${var.domain_aliases}"
   enabled       = true
   price_class   = "PriceClass_All"
   http_version  = "http2"
@@ -37,7 +37,7 @@ resource "aws_cloudfront_distribution" "domain-cdn" {
   }
 
   "default_cache_behavior" {
-    allowed_methods = ["${join("\",\"", var.allowed_methods)}"]
+    allowed_methods = "${var.allowed_methods}"
     cached_methods  = ["GET", "HEAD"]
 
     "forwarded_values" {
@@ -92,7 +92,7 @@ resource "aws_cloudfront_distribution" "domain-cdn-with-logging" {
     }
   }
 
-  aliases       = ["${join("\", \"", var.domain_aliases)}"]
+  aliases       = "${var.domain_aliases}"
   enabled       = true
   price_class   = "PriceClass_All"
   http_version  = "http2"
@@ -113,7 +113,7 @@ resource "aws_cloudfront_distribution" "domain-cdn-with-logging" {
   }
 
   "default_cache_behavior" {
-    allowed_methods = ["${join("\",\"", var.allowed_methods)}"]
+    allowed_methods = "${var.allowed_methods}"
     cached_methods  = ["GET", "HEAD"]
 
     "forwarded_values" {
