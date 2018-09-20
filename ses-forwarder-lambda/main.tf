@@ -186,7 +186,7 @@ resource "aws_lambda_function" "fwd-lambda" {
 }
 
 # Allow Lambda to execute SES functions
-resource "aws_lambda_permission" "allow_ses" {
+resource "aws_lambda_permission" "allow-ses" {
   statement_id   = "AllowExecutionFromSES"
   action         = "lambda:InvokeFunction"
   function_name  = "${aws_lambda_function.fwd-lambda.function_name}"

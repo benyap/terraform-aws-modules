@@ -91,7 +91,8 @@ To apply or destroy this configuration, you require the following permissions on
         "iam:GetPolicyVersion",
         "iam:ListPolicyVersions",
         "iam:DeletePolicy",
-        "iam:AttachRolePolicy"
+        "iam:AttachRolePolicy",
+        "iam:ListAttachedRolePolicies"
       ],
       "Resource": ["*"]
     }
