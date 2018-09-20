@@ -2,6 +2,10 @@ variable "account_id" {
   description = "The account ID"
 }
 
+variable "role_name" {
+  description = "The name of the role to assume to create the SES domain identity"
+}
+
 variable "email_domain" {
   description = "The domain of the email this lambda will forward from"
 }

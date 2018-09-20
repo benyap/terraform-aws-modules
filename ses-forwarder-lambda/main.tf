@@ -1,10 +1,31 @@
+#######################
+# Setup
+#######################
+
+# Create AWS provider in us-east-1
+provider "aws" {
+  region  = "us-east-1"
+  version = "~>1.36"
+
+  # Assume the terraform role to give access to AWS resources.
+  assume_role {
+    role_arn = "arn:aws:iam::${var.account_id}:role/${var.role_name}"
+  }
+}
+
+
 ########################
-# Create S3 bucket
+# Configuration
 ########################
 
 locals {
   bucket_name = "${var.email_domain}-emails"
 }
+
+
+########################
+# Create S3 bucket
+########################
 
 # Create policy which allows SES to put objects in bucket
 data "aws_iam_policy_document" "bucket-policy-document" {
@@ -130,12 +151,14 @@ resource "aws_iam_role_policy_attachment" "fwd-lambda-role-policy" {
   policy_arn = "${aws_iam_policy.fwd-lambda-policy.arn}"
 }
 
+# Zip up lambda script
 data "archive_file" "lambda-source" {
   type        = "zip"
   source_file = "${path.module}/lambda.js"
   output_path = "${path.module}/lambda.js.zip"
 }
 
+# Create Lambda function
 resource "aws_lambda_function" "fwd-lambda" {
   filename         = "${path.module}/lambda.js.zip"
   function_name    = "${replace(var.email_domain, ".", "_")}-${var.rule_name}-forwarder"
@@ -162,6 +185,7 @@ resource "aws_lambda_function" "fwd-lambda" {
   }
 }
 
+# Allow Lambda to execute SES functions
 resource "aws_lambda_permission" "allow_ses" {
   statement_id   = "AllowExecutionFromSES"
   action         = "lambda:InvokeFunction"
