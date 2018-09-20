@@ -173,7 +173,7 @@ resource "aws_lambda_function" "fwd-lambda" {
       fromEmail       = "${var.lambda_from_email}"
       subjectPrefix   = "${var.lambda_subject_prefix}"
       emailBucket     = "${local.bucket_name}"
-      emailKeyPrefix  = "forwarded/"
+      emailKeyPrefix  = "${var.email_object_prefix}"
       forwardMapping  = "${var.lambda_forward_mapping}"
     }
   }
@@ -207,7 +207,7 @@ resource "aws_ses_receipt_rule" "store-and-forward-email" {
 
   s3_action {
     bucket_name       = "${local.bucket_name}"
-    object_key_prefix = "${var.lambda_subject_prefix}"
+    object_key_prefix = "${var.email_object_prefix}"
     position    = 1
   }
 

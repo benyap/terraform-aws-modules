@@ -16,6 +16,7 @@ module "MODULE_NAME" {
   email_domain  = "${var.email_domain}"
   rule_name     = "${var.rule_name}"
 
+  email_object_prefix     = "forwarded/"
   lambda_from_email       = "test@${var.domain_name}"
   lambda_subject_prefix   = "FWD: "
   lambda_forward_mapping  = "${jsonencode(map(
@@ -57,6 +58,8 @@ module "MODULE_NAME" {
 
 
 ## Optional variables
+
+- `email_object_prefix`: (OPTIONAL) The prefix to add to the object name in S3 (default is "forwarded/").
 
 - `lambda_subject_prefix`: (OPTIONAL) Forwarded emails subject will contain this prefix (default is "").
 

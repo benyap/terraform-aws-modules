@@ -10,6 +10,11 @@ variable "email_domain" {
   description = "The domain of the email this lambda will forward from"
 }
 
+variable "email_object_prefix" {
+  description = "The prefix to add to the object name in S3"
+  default     = "forwarded/"
+}
+
 variable "rule_name" {
   description = "A unique name for the resources created by this rule"
 }
