@@ -147,7 +147,7 @@ data "archive_file" "lambda-source" {
 
 resource "aws_lambda_function" "fwd-lambda" {
   filename         = "${path.module}/lambda.js.zip"
-  function_name    = "${var.email_domain}-${var.rule_name}-forwarder"
+  function_name    = "${replace(var.email_domain, ".", "_")}-${var.rule_name}-forwarder"
   description      = "Forwards emails to ${local.bucket_name} for the SES rule ${var.rule_name}"
   role             = "${aws_iam_role.fwd-lambda-role.arn}"
   handler          = "lambda.handler"
