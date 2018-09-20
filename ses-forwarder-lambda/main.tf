@@ -70,7 +70,7 @@ resource "aws_s3_bucket" "email-bucket" {
 
 # Lambda role for forwarding emails
 resource "aws_iam_role" "fwd-lambda-role" {
-  name        = "${var.email_domain}-${var.rule_name}-lambda_role"
+  name        = "${var.email_domain}-${var.rule_name}-fwd_lambda_role"
   description = "Lambda execution role for forwarding emails from @${var.email_domain} for SES rule ${var.rule_name}"
   assume_role_policy = <<EOF
 {
@@ -120,7 +120,7 @@ data "aws_iam_policy_document" "fwd-lambda-policy-document" {
 }
 
 resource "aws_iam_policy" "fwd-lambda-policy" {
-  name        = "${var.email_domain}-${var.rule_name}-lambda_policy"
+  name        = "${var.email_domain}-${var.rule_name}-fwd_lambda_policy"
   description = "Lambda policy for forwarding emails from @${var.email_domain} for SES rule ${var.rule_name}"
   policy      = "${data.aws_iam_policy_document.fwd-lambda-policy-document.json}"
 }
