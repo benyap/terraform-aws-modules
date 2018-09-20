@@ -22,6 +22,10 @@ Each module has its own README where you can find information about its inputs, 
 
 - [static-s3-site-redirect-stack](https://github.com/bwyap/terraform-aws-modules/tree/master/static-s3-site-redirect-stack) for provisioning a stack of resources to serve a static site redirect through a custom domain (using S3, Cloudfront and Route53)
 
+### Custom email
+
+- [ses-domain-identity](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-domain-identity) for creating DNS and MX records in Route53 for a custom email domain
+
 
 ## Installation
 
