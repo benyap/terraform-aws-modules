@@ -206,7 +206,8 @@ resource "aws_ses_receipt_rule" "store-and-forward-email" {
   after         = "${var.after}"
 
   s3_action {
-    bucket_name = "${local.bucket_name}"
+    bucket_name       = "${var.bucket_name}"
+    object_key_prefix = "${var.lambda_subject_prefix}"
     position    = 1
   }
 
