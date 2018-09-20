@@ -27,6 +27,11 @@ module "MODULE_NAME" {
 - `hosted_zone_id`: The id of the hosted zone the domain was registered in.
 
 
+## Outputs
+
+- `domain_identity`: The name of domain identity.
+
+
 ## Pre-requisites
 
 To apply or destroy this configuration, you require the following permissions on the IAM user used to run this configuration:
