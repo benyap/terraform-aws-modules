@@ -1,6 +1,7 @@
 # S3 Site bucket
 
 This module provisions an SSL certificate for a domain record and validates it using DNS validation records.
+Note that this module will create a provider in the region `us-east-1`.
 
 To use this module in your configuration, use this repository as a source:
 
