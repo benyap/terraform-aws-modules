@@ -2,10 +2,6 @@ variable "account_id" {
   description = "The account ID"
 }
 
-variable "aws_region" {
-  description = "The AWS region resources will reside in by default"
-}
-
 variable "role_name" {
   description = "The name of the role to assume to create the SES domain identity"
 }

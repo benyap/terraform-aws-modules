@@ -51,7 +51,6 @@ data "aws_iam_policy_document" "bucket-policy-document" {
 # Create bucket to store emails
 resource "aws_s3_bucket" "email-bucket" {
   bucket = "${local.bucket_name}"
-  region = "${var.aws_region}"
   policy = "${data.aws_iam_policy_document.bucket-policy-document.json}"
 
   lifecycle_rule {
