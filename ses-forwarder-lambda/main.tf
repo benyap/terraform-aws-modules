@@ -158,7 +158,7 @@ resource "aws_lambda_function" "fwd-lambda" {
     variables = {
       fromEmail       = "${var.lambda_from_email}"
       subjectPrefix   = "${var.lambda_subject_prefix}"
-      emailBucket     = "${var.bucket_name}"
+      emailBucket     = "${local.bucket_name}"
       emailKeyPrefix  = "forwarded/"
       forwardMapping  = "${var.lambda_forward_mapping}"
     }
