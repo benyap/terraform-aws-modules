@@ -1,7 +1,8 @@
 # SES receipt rule set
 
 This module creates and activates an SES receipt rule set.
-Note that this module will create a provider in the region `us-east-1`.
+
+**Note that this module requires a provider in the region `us-east-1`.**
 
 To use this module in your configuration, use this repository as a source:
 
@@ -10,17 +11,15 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//ses-receipt-rule-set"
 
-  account_id    = "${var.account_id}"
-  role_name     = "${var.role_name}"
+  providers = {
+    aws = "aws.us-east-1-provider"
+  }
+
   rule_set_name = "${var.rule_set_name}"
 }
 ```
 
 ## Required variables
-
-- `account_id`: The account ID.
-
-- `role_name`: The name of the role to assume to maange SES resources.
 
 - `rule_set_name`: The name of the receipt rule set to create and activate.
 
