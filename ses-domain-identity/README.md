@@ -1,4 +1,4 @@
-# SES domain
+# SES domain identity
 
 This module sets up a domain identity for SES and verifies it on Route53. Note that this module will create a provider in the region `us-east-1`.
 
