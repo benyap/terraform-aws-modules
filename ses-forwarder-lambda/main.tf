@@ -174,7 +174,7 @@ resource "aws_lambda_permission" "allow_ses" {
 ########################
 
 resource "aws_ses_receipt_rule" "store-and-forward-email" {
-  name          = "${var.email_domain}-${var.rule_name}-receipt_rule"
+  name          = "${var.email_domain}-${var.rule_name}-fwd_receipt_rule"
   rule_set_name = "${var.rule_set_name}"
   enabled       = true
   scan_enabled  = true
