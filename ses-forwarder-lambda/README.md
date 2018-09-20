@@ -1,7 +1,8 @@
 # SES forwarder lambda
 
 This module configures SES to receive emails on a custom domain, and creates an S3 bucket to store emails and a Lambda function to automatically forward incoming emails to an external email.
-Note that this module will create a provider in the region `us-east-1`.
+
+**Note that this module requires a provider in the region `us-east-1`.**
 
 To use this module in your configuration, use this repository as a source:
 
@@ -10,9 +11,11 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//ses-forwarder-lambda"
 
-  account_id    = "${var.account_id}"
-  role_name     = "${var.role_name}"
+  providers = {
+    aws = "aws.us-east-1-provider"
+  }
 
+  account_id    = "${var.account_id}"
   email_domain  = "${var.email_domain}"
   rule_name     = "${var.rule_name}"
 
@@ -35,8 +38,6 @@ module "MODULE_NAME" {
 ## Required variables
 
 - `account_id`: The account ID.
-
-- `role_name`: The name of the role to assume to maange SES resources.
 
 - `email_domain`: The domain of the email this lambda will forward from.
 
@@ -64,6 +65,8 @@ module "MODULE_NAME" {
 - `lambda_subject_prefix`: (OPTIONAL) Forwarded emails subject will contain this prefix (default is "").
 
 - `after`: (OPTIONAL) The name of the rule to position this rule after (default is "").
+
+- `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 
 
 ## Outputs

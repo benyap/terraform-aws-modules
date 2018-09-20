@@ -1,19 +1,3 @@
-#######################
-# Setup
-#######################
-
-# Create AWS provider in us-east-1
-provider "aws" {
-  region  = "us-east-1"
-  version = "~>1.36"
-
-  # Assume the terraform role to give access to AWS resources.
-  assume_role {
-    role_arn = "arn:aws:iam::${var.account_id}:role/${var.role_name}"
-  }
-}
-
-
 ########################
 # Configuration
 ########################
@@ -178,11 +162,13 @@ resource "aws_lambda_function" "fwd-lambda" {
     }
   }
 
-  tags {
-    Project     = "${var.project_tag}"
-    Environment = "${var.environment_tag}"
-    Name        = "${var.project_tag}-${var.environment_tag}-${var.type_tag}-fwd_lambda"
-  }
+  tags = "${merge("${var.tags}", 
+    map(
+      "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}-fwd_lambda",
+      "Environment", "${var.environment_tag}",
+      "Project", "${var.project_tag}"
+    )
+  )}"
 }
 
 # Allow Lambda to execute SES functions
