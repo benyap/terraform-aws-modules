@@ -3,7 +3,7 @@ variable "account_id" {
 }
 
 variable "role_name" {
-  description = "The name of the role to assume to create the SES domain identity"
+  description = "The name of the role to assume to maange SES resources"
 }
 
 variable "email_domain" {
@@ -15,24 +15,24 @@ variable "rule_name" {
 }
 
 variable "lambda_from_email" {
-  description = "Forwarded emails will come from this verified address "
+  description = "Forwarded emails will come from this verified address"
 }
 
 variable "lambda_subject_prefix" {
-  description = "Forwarded emails subject will contain this prefix "
+  description = "Forwarded emails subject will contain this prefix"
   default     = ""
 }
 
 variable "lambda_forward_mapping" {
-  description = "JSON string of object where the key is the lowercase email address from which to forward and the value is an array of email addresses to which to send the message."
+  description = "JSON string of object where the key is the lowercase email address from which to forward and the value is an array of email addresses to which to send the message"
 }
 
 variable "rule_set_name" {
-  description = "The name of the rule set to add SES forwarding rules to"
+  description = "The name of the rule set to create and add SES forwarding rules to"
 }
 
 variable "rule_set_recipients" {
-  description = "The list of recipients for the rule set"
+  description = "The list of accepted recipients for the rule set"
   type = "list"
 }
 
