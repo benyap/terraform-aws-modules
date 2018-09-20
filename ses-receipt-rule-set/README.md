@@ -1,6 +1,7 @@
 # SES receipt rule set
 
 This module creates and activates an SES receipt rule set.
+Note that this module will create a provider in the region `us-east-1`.
 
 To use this module in your configuration, use this repository as a source:
 

@@ -1,6 +1,7 @@
 # SES forwarder lambda
 
 This module configures SES to receive emails on a custom domain, and creates an S3 bucket to store emails and a Lambda function to automatically forward incoming emails to an external email.
+Note that this module will create a provider in the region `us-east-1`.
 
 To use this module in your configuration, use this repository as a source:
 
