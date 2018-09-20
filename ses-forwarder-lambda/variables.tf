@@ -24,6 +24,7 @@ variable "lambda_from_email" {
 
 variable "lambda_subject_prefix" {
   description = "Forwarded emails subject will contain this prefix "
+  default     = ""
 }
 
 variable "lambda_forward_mapping" {
