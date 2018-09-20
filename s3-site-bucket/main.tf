@@ -30,7 +30,13 @@ resource "aws_s3_bucket" "s3-site-bucket" {
   region    = "${var.aws_region}"
   acl       = "public-read"
 
-  tags = "${merge("${var.tags}", map("Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}", "Environment", "${var.environment_tag}", "Project", "${var.project_tag}"))}"
+  tags = "${merge("${var.tags}",
+    map(
+      "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}",
+      "Environment", "${var.environment_tag}",
+      "Project", "${var.project_tag}"
+    )
+  )}"
 
   website {
     index_document  = "${var.index_document}"
