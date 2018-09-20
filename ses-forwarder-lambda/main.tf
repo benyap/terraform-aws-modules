@@ -57,7 +57,7 @@ resource "aws_s3_bucket" "email-bucket" {
   }
 
   tags {
-    Project     = "${var.domain_name}"
+    Project     = "${var.email_domain}"
     Environment = "${var.environment_tag}"
     Name        = "${var.domain_name}-${var.environment_tag}-email_s3_bucket"
   }
@@ -156,7 +156,7 @@ resource "aws_lambda_function" "fwd-lambda" {
   }
 
   tags {
-    Project     = "${var.domain_name}"
+    Project     = "${var.email_domain}"
     Environment = "${var.environment_tag}"
     Name        = "${var.domain_name}-${var.environment_tag}-fwd_lambda"
   }
