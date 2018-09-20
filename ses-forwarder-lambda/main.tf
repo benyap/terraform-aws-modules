@@ -55,6 +55,12 @@ resource "aws_s3_bucket" "email-bucket" {
       days = 365
     }
   }
+
+  tags {
+    Project     = "${var.domain_name}"
+    Environment = "${var.environment_tag}"
+    Name        = "${var.domain_name}-${var.environment_tag}-email_s3_bucket"
+  }
 }
 
 
@@ -93,11 +99,6 @@ data "aws_iam_policy_document" "fwd-lambda-policy-document" {
       "logs:PutLogEvents"
     ]
     resources = ["arn:aws:logs:*:*:*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
   }
 
   statement {
@@ -105,11 +106,6 @@ data "aws_iam_policy_document" "fwd-lambda-policy-document" {
     effect  = "Allow"
     actions = ["ses:SendRawEmail"]
     resources = ["*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
   }
 
   statement {
@@ -120,11 +116,6 @@ data "aws_iam_policy_document" "fwd-lambda-policy-document" {
       "s3:PutObject"
     ]
     resources = ["arn:aws:s3:::${local.bucket_name}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
   }
 }
 
@@ -162,6 +153,12 @@ resource "aws_lambda_function" "fwd-lambda" {
       emailKeyPrefix  = "forwarded/"
       forwardMapping  = "${var.lambda_forward_mapping}"
     }
+  }
+
+  tags {
+    Project     = "${var.domain_name}"
+    Environment = "${var.environment_tag}"
+    Name        = "${var.domain_name}-${var.environment_tag}-fwd_lambda"
   }
 }
 
