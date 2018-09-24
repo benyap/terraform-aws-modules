@@ -87,6 +87,7 @@ To apply or destroy this configuration, you require the following permissions on
     {
       "Effect": "Allow",
       "Action": [
+        "ses:*",
         "lambda:*",
         "iam:ListInstanceProfilesForRole",
         "iam:GetRole",
