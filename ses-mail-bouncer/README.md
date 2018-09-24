@@ -17,6 +17,7 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
+  email_domain  = "${var.domain_name}
   bucket_name   = "${var.bucket_name}"
   rule_name     = "bounce_noreply"
 
@@ -30,6 +31,8 @@ module "MODULE_NAME" {
 ```
 
 ## Required variables
+
+- `email_domain`: The domain of the email to bounce on.
 
 - `bucket_name`: The name of the bucket that bounced emails will be placed in.
 

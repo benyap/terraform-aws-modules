@@ -11,7 +11,7 @@ resource "aws_ses_receipt_rule" "bounce-email" {
   rule_set_name = "${var.rule_set_name}"
   enabled       = true
   scan_enabled  = true
-  recipients    = "${var.rule_set_recipients}"
+  recipients    = "${var.bounce_recipients}"
   after         = "${var.after}"
 
   s3_action {

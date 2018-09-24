@@ -1,3 +1,7 @@
+variable "email_domain" {
+  description = "The domain of the email to bounce on"
+}
+
 variable "bucket_name" {
   description = "The name of the bucket that bounced emails will be placed in"
 }
