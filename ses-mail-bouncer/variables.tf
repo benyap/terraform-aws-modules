@@ -8,7 +8,7 @@ variable "rule_name" {
 
 variable "email_object_prefix" {
   description = "The prefix to add to the object name in S3"
-  value       = "bounced/"
+  default      = "bounced/"
 }
 
 variable "rule_set_name" {
