@@ -26,7 +26,12 @@ Each module has its own README where you can find information about its inputs, 
 
 - [ses-domain-identity](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-domain-identity) for creating DNS and MX records in Route53 for a custom email domain
 
-- [ses-forwarder-lambda](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-forwarder-lambda) for configuring SES to receiving and automatically forwarding emails on a custom email domain
+- [ses-mail-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) for creating a S3 bucket that is configured for storing emails from SES
+
+- [ses-forwarder-lambda](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-forwarder-lambda) for configuring SES 
+to receive and automatically forwarding emails on a custom email domain
+
+- [ses-mail-bouncer](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bouncer) for configuring SES to bounce specified email addresses on a custom email domain
 
 
 ## Installation
