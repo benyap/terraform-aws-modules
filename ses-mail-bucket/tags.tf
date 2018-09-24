@@ -14,7 +14,7 @@ variable "environment_tag" {
 
 variable "type_tag" {
   description = "The value for the tag 'Type'"
-  default     = "fwd_lambda"
+  default     = "email_s3_bucket"
 }
 
 output "name_tag" {

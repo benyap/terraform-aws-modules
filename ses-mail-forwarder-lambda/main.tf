@@ -1,75 +1,4 @@
 ########################
-# Configuration
-########################
-
-locals {
-  bucket_name = "${var.email_domain}-emails"
-}
-
-
-########################
-# Create S3 bucket
-########################
-
-# Create policy which allows SES to put objects in bucket
-data "aws_iam_policy_document" "bucket-policy-document" {
-  statement {
-    sid     = "AllowSESPuts"
-    effect  = "Allow"
-    actions = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${local.bucket_name}/*"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ses.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:Referer"
-      values = ["${var.account_id}"]
-    }
-  }
-}
-
-# Create bucket to store emails
-resource "aws_s3_bucket" "email-bucket" {
-  bucket = "${local.bucket_name}"
-  policy = "${data.aws_iam_policy_document.bucket-policy-document.json}"
-
-  lifecycle_rule {
-    id      = "email-rule"
-    enabled = true
-
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days = 60
-      storage_class = "ONEZONE_IA"
-    }
-
-    transition {
-      days          = 90
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = 365
-    }
-  }
-
-  tags {
-    Project     = "${var.project_tag}"
-    Environment = "${var.environment_tag}"
-    Name        = "${var.project_tag}-${var.environment_tag}-${var.type_tag}-email_s3_bucket"
-  }
-}
-
-
-########################
 # Create forwarding lambda
 ########################
 
@@ -120,7 +49,7 @@ data "aws_iam_policy_document" "fwd-lambda-policy-document" {
       "s3:GetObject",
       "s3:PutObject"
     ]
-    resources = ["arn:aws:s3:::${local.bucket_name}/*"]
+    resources = ["arn:aws:s3:::${var.bucket_name}/*"]
   }
 }
 
@@ -146,7 +75,7 @@ data "archive_file" "lambda-source" {
 resource "aws_lambda_function" "fwd-lambda" {
   filename         = "${path.module}/lambda.js.zip"
   function_name    = "${replace(var.email_domain, ".", "_")}-${var.rule_name}-forwarder"
-  description      = "Forwards emails to ${local.bucket_name} for the SES rule ${var.rule_name}"
+  description      = "Forwards emails to ${var.bucket_name} for the SES rule ${var.rule_name}"
   role             = "${aws_iam_role.fwd-lambda-role.arn}"
   handler          = "lambda.handler"
   source_code_hash = "${data.archive_file.lambda-source.output_base64sha256}"
@@ -156,7 +85,7 @@ resource "aws_lambda_function" "fwd-lambda" {
     variables = {
       fromEmail       = "${var.lambda_from_email}"
       subjectPrefix   = "${var.lambda_subject_prefix}"
-      emailBucket     = "${local.bucket_name}"
+      emailBucket     = "${var.bucket_name}"
       emailKeyPrefix  = "${var.email_object_prefix}"
       forwardMapping  = "${var.lambda_forward_mapping}"
     }
@@ -164,7 +93,7 @@ resource "aws_lambda_function" "fwd-lambda" {
 
   tags = "${merge("${var.tags}", 
     map(
-      "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}-fwd_lambda",
+      "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}",
       "Environment", "${var.environment_tag}",
       "Project", "${var.project_tag}"
     )
@@ -192,7 +121,7 @@ resource "aws_ses_receipt_rule" "store-and-forward-email" {
   after         = "${var.after}"
 
   s3_action {
-    bucket_name       = "${local.bucket_name}"
+    bucket_name       = "${var.bucket_name}"
     object_key_prefix = "${var.email_object_prefix}"
     position    = 1
   }

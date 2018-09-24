@@ -2,6 +2,8 @@
 
 This module configures SES to bounce emails on a custom domain, storing them in an **existing** S3 bucket.
 
+You can use the [`ses-mail-bucket`](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) module to create an S3 bucket that is pre-configured for use by this module.
+
 **Note that this module requires a provider in the region `us-east-1`.**
 
 To use this module in your configuration, use this repository as a source:

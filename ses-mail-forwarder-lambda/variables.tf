@@ -1,5 +1,5 @@
-variable "account_id" {
-  description = "The account ID"
+variable "bucket_name" {
+  description = "The name of the S3 bucekt to store emails in"
 }
 
 variable "email_domain" {

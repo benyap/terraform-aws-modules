@@ -1,6 +1,8 @@
 # SES forwarder lambda
 
-This module configures SES to receive emails on a custom domain, and creates an S3 bucket to store emails and a Lambda function to automatically forward incoming emails to an external email.
+This module configures SES to receive emails on a custom domain and creats a Lambda function to automatically store emails in an **existing** S3 bucket and forward them to an external email.
+
+You can use the [`ses-mail-bucket`](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) module to create an S3 bucket that is pre-configured for use by this module.
 
 **Note that this module requires a provider in the region `us-east-1`.**
 
@@ -15,7 +17,7 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
-  account_id    = "${var.account_id}"
+  bucket_name   = "${var.bucket_name}"
   email_domain  = "${var.email_domain}"
   rule_name     = "${var.rule_name}"
 
@@ -31,13 +33,12 @@ module "MODULE_NAME" {
 
   project_tag       = "${var.project_tag}"
   environment_tag   = "${var.environment_tag}"
-  type_tag          = "${var.type_tag}"
 }
 ```
 
 ## Required variables
 
-- `account_id`: The account ID.
+- `bucket_name`: The name of the S3 bucekt to store emails in.
 
 - `email_domain`: The domain of the email this lambda will forward from.
 
@@ -55,7 +56,6 @@ module "MODULE_NAME" {
 
 - `environment_tag`: The value for tag 'Environment'.
 
-- `type_tag`: The value for tag 'Type'.
 
 
 ## Optional variables
@@ -65,6 +65,8 @@ module "MODULE_NAME" {
 - `lambda_subject_prefix`: (OPTIONAL) Forwarded emails subject will contain this prefix (default is "").
 
 - `after`: (OPTIONAL) The name of the rule to position this rule after (default is "").
+
+- `type_tag`: (OPTIONAL) The value for tag 'Type' (default is "fwd_lambda").
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 
