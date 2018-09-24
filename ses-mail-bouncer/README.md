@@ -17,7 +17,7 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
-  email_domain  = "${var.domain_name}
+  email_domain  = "${var.domain_name}"
   bucket_name   = "${var.bucket_name}"
   rule_name     = "bounce_noreply"
 
