@@ -95,6 +95,7 @@ To apply or destroy this configuration, you require the following permissions on
         "iam:GetRole",
         "iam:CreateRole",
         "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
         "iam:DeleteRole",
         "iam:PassRole",
         "iam:GetPolicy",
