@@ -1,4 +1,4 @@
-# SES forwarder lambda
+# SES mail forwarder lambda
 
 This module configures SES to receive emails on a custom domain and creats a Lambda function to automatically store emails in an **existing** S3 bucket and forward them to an external email.
 
