@@ -4,7 +4,7 @@
 
 # User for deploying to qat
 resource "aws_iam_user" "deployment-user" {
-  name = "s3site.deployer.${var.user_name}"
+  name = "s3site.deployer-${var.user_name}"
   path = "/serviceuser/"
   force_destroy = true
 }
