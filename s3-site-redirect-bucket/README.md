@@ -1,4 +1,4 @@
-# S3 Site rediret bucket
+# S3 Site redirect bucket
 
 This module creates and configures an S3 bucket for redirection.
 
