@@ -12,7 +12,7 @@ Each module has its own README where you can find information about its inputs, 
 
 - [s3-site-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-site-bucket) for creating S3 buckets with static site hosting
 
-- [s3-site-service-user](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-site-service-user) for IAM service users to deploy to S3 site buckets
+- [s3-site-service-user](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-site-service-user) for creating IAM service users to deploy to S3 site buckets
 
 - [acm-cert-cdn-validation](https://github.com/bwyap/terraform-aws-modules/tree/master/acm-cert-cdn-validation) for provisioning SSL certificates
 
