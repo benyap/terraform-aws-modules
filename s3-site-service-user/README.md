@@ -48,7 +48,11 @@ To apply or destroy this configuration, you require the following permissions on
         "iam:GetUserPolicy",
         "iam:PutUserPolicy",
         "iam:DeleteUserPolicy",
-        "iam:ListGroupsForUser"
+        "iam:ListGroupsForUser",
+        "iam:ListAccessKeys",
+        "iam:DeleteAccessKey",
+        "iam:ListMFADevices",
+        "iam:DeleteLoginProfile"
       ],
       "Resource": ["*"]
     }
