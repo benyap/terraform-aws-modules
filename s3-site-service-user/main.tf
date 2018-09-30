@@ -2,7 +2,7 @@
 # Configuration
 #######################
 
-# User for deploying to qat
+# User for deploying to the S3 site
 resource "aws_iam_user" "deployment-user" {
   name = "s3site.deployer-${var.user_name}"
   path = "/serviceuser/"

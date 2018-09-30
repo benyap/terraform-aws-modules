@@ -18,7 +18,7 @@ module "MODULE_NAME" {
 
 ## Required variables
 
-- `user_name`: The name of the service user to create (automatically prefixed by 's3site.deployer.').
+- `user_name`: The name of the service user to create (automatically prefixed by 's3site.deployer-').
 
 - `bucket_name`: The name of the website bucket to give the service user access to.
 

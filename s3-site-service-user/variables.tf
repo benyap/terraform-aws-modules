@@ -1,5 +1,5 @@
 variable "user_name" {
-  description = "The name of the service user to create (automatically prefixed by 's3site.deployer.')"
+  description = "The name of the service user to create (automatically prefixed by 's3site.deployer-')"
 }
 
 variable "bucket_name" {
