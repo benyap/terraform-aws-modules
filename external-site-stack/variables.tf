@@ -33,8 +33,10 @@ variable "hosted_zone_id" {
 
 variable "index_document" {
   description = "The name of the index file for the website"
+  default     = ""
 }
 
 variable "error_document" {
   description = "The name of the error file for the website"
+  default     = ""
 }
