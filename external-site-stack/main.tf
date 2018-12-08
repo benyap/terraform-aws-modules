@@ -15,42 +15,6 @@ module "site-cert" {
   type_tag        = "cert"
 }
 
-resource "aws_s3_bucket" "site-cdn-logging-bucket" {
-  bucket    = "${var.domain_env_prefix}${var.domain_name}.s3.amazonaws.com"
-  region    = "${var.aws_region}"
-  acl       = "log-delivery-write"
-
-  lifecycle_rule {
-    id      = "log-rule"
-    enabled = true
-    prefix  = "log-${var.domain_env_prefix}${var.domain_name}/"
-
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days = 60
-      storage_class = "ONEZONE_IA"
-    }
-
-    transition {
-      days          = 90
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = 365
-    }
-  }
-  tags {
-    Project     = "${var.domain_name}"
-    Environment = "${var.environment_tag}"
-    Name        = "${var.domain_name}-${var.environment_tag}-cdn_logging_s3_bucket"
-  }
-}
-
 module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-cloudfront-distribution"
 
@@ -63,9 +27,7 @@ module "site-cdn" {
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
 
-  logging_enabled     = true
-  logging_bucket      = "${aws_s3_bucket.site-cdn-logging-bucket.id}"
-  logging_prefix      = "log-${var.domain_env_prefix}${var.domain_name}/"
+  logging_enabled     = false
 
   project_tag     = "${var.domain_name}"
   environment_tag = "${var.environment_tag}"
