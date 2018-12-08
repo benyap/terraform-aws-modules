@@ -54,8 +54,8 @@ resource "aws_s3_bucket" "site-cdn-logging-bucket" {
 module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-cloudfront-distribution"
 
-  origin_id           = "${module.site-bucket.bucket_id}"
-  website_endpoint    = "${module.site-bucket.website_endpoint}"
+  origin_id           = "${replace(var.external_site_origin, ".", "-")}-origin"
+  website_endpoint    = "${var.external_site_origin}"
   certificate_arn     = "${module.site-cert.certificate_arn}"
   domain_aliases      = [
     "${var.domain_env_prefix}${var.domain_name}"

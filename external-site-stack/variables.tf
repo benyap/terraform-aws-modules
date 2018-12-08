@@ -14,6 +14,10 @@ variable "domain_name" {
   description = "The name of the domain to create"
 }
 
+variable "external_site_origin" {
+  description = "The origin URL of the external site to point to"
+}
+
 variable "domain_env_prefix" {
   description = "The domain prefix to the root domain"
   default     = ""

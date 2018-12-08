@@ -19,12 +19,13 @@ module "MODULE_NAME" {
   account_id          = "${var.account_id}"
   terraform_role_name = "${var.terraform_role_name}"
 
-  domain_name       = "${var.domain_name}"
-  domain_env_prefix = "${var.domain_env_prefix}"
-  environment_tag   = "${var.environment_tag}"
-  hosted_zone_id    = "${var.hosted_zone_id}"
-  index_document    = "${var.index_document}"
-  error_document    = "${var.error_document}"
+  domain_name           = "${var.domain_name}"
+  domain_env_prefix     = "${var.domain_env_prefix}"
+  external_site_origin  = "${var.external_site_origin}"
+  environment_tag       = "${var.environment_tag}"
+  hosted_zone_id        = "${var.hosted_zone_id}"
+  index_document        = "${var.index_document}"
+  error_document        = "${var.error_document}"
 }
 ```
 
@@ -44,6 +45,8 @@ To resolve this issue, simply run `terraform apply` again.
 - `terraform_role_name`: The name of the role for Terraform to use.
 
 - `domain_name`: The name of the domain to create.
+
+- `external_site_origin`: The origin URL of the external site to point to.
 
 - `environment_tag`: The value for tag 'Environment'.
 
