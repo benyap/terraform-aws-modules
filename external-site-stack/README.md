@@ -13,7 +13,7 @@ To use this module in your configuration, use this repository as a source:
 ```hcl
 # Example usage
 module "MODULE_NAME" {
-  source = "git@github.com:bwyap/terraform-aws-modules.git//static-s3-site-stack"
+  source = "git@github.com:bwyap/terraform-aws-modules.git//external-site-stack"
 
   aws_region          = "${var.aws_region}"
   account_id          = "${var.account_id}"
@@ -25,7 +25,6 @@ module "MODULE_NAME" {
   hosted_zone_id    = "${var.hosted_zone_id}"
   index_document    = "${var.index_document}"
   error_document    = "${var.error_document}"
-  routing_rules     = "${var.routing_rules}"
 }
 ```
 
