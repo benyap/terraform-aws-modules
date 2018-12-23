@@ -8,6 +8,12 @@ A collection of modules for configuring and provisioning AWS resources through T
 These configurations are designed to be used as modules within your own Terraform code.
 Each module has its own README where you can find information about its inputs, outputs and required IAM permissions.
 
+### Configuration
+
+- [external-access](https://github.com/bwyap/terraform-aws-modules/tree/master/external-access) for setting up the external trust relationships for an AWS account
+
+- [terraform-setup](https://github.com/bwyap/terraform-aws-modules/tree/master/terraform-setup) for setting up the scaffolding for Terraform to manage infrastructure using good AWS IAM practices
+
 ### Static site hosting
 
 - [s3-site-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-site-bucket) for creating S3 buckets with static site hosting
@@ -23,6 +29,12 @@ Each module has its own README where you can find information about its inputs, 
 - [static-s3-site-stack](https://github.com/bwyap/terraform-aws-modules/tree/master/static-s3-site-stack) for provisioning a stack of resources to serve a static site through a custom domain (using S3, Cloudfront and Route53)
 
 - [static-s3-site-redirect-stack](https://github.com/bwyap/terraform-aws-modules/tree/master/static-s3-site-redirect-stack) for provisioning a stack of resources to serve a static site redirect through a custom domain (using S3, Cloudfront and Route53)
+
+### External site hosting
+
+- [external-cloudfront-distribution](https://github.com/bwyap/terraform-aws-modules/tree/master/external-cloudfront-distribution) for provisioning a Cloudfront distribution that points to an external origin
+
+- [external-site-stack](https://github.com/bwyap/terraform-aws-modules/tree/master/external-site-stack) for provisioning a route that points to an external origin using a custom domain
 
 ### Custom email
 
