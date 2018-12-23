@@ -15,9 +15,9 @@ module "MODULE_NAME" {
 
   project_tag     = "${var.project_tag}"
   environment_tag = "${var.environment_tag}"
-  type_tag        = "${var.type_tag}"
 }
 ```
+
 
 ## Required variables
 
@@ -28,8 +28,6 @@ module "MODULE_NAME" {
 - `project_tag`: The value for tag 'Project'.
 
 - `environment_tag`: The value for tag 'Environment'.
-
-- `type_tag`: The value for tag 'Type'.
 
 
 ## Optional variables

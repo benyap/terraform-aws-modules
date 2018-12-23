@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "s3-resource-bucket" {
 
   tags = "${merge("${var.tags}",
     map(
-      "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}",
+      "Name", "${var.project_tag}-${var.environment_tag}-s3_bucket",
       "Environment", "${var.environment_tag}",
       "Project", "${var.project_tag}"
     )

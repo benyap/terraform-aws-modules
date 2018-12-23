@@ -12,11 +12,7 @@ variable "environment_tag" {
   description = "The value for tag 'Environment'"
 }
 
-variable "type_tag" {
-  description = "The value for the tag 'Type'"
-}
-
 output "name_tag" {
   description = "The value of the 'Name' tag"
-  value = "${var.project_tag}-${var.environment_tag}-${var.type_tag}"
+  value = "${var.project_tag}-${var.environment_tag}-s3_bucket"
 }
