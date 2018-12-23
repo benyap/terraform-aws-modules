@@ -47,6 +47,10 @@ to receive and automatically forwarding emails on a custom email domain
 
 - [ses-mail-bouncer](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bouncer) for configuring SES to bounce specified email addresses on a custom email domain
 
+### Other utilities
+
+- [s3-resource-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-resource-bucket) for creating S3 buckets to store resources to be accessed by a backend
+
 
 ## Installation
 
