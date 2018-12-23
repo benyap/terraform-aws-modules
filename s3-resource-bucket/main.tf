@@ -50,7 +50,7 @@ resource "aws_iam_user_policy" "user-policy" {
     {
       "Action": "s3:*",
       "Effect": "Allow",
-      "Resource": ["${var.bucket_name}"]
+      "Resource": ["${aws_s3_bucket.s3-resource-bucket.arn}*"]
     }
   ]
 }
