@@ -3,6 +3,8 @@
 This module creates and configures an S3 bucket that can be accessed using an IAM user.
 This is useful for provisioning a storage bucket that can be accessed via a backend.
 
+**NOTE**: You will need to use the AWS console to manually create access keys for the user. By default, the created service user will have no access credentials.
+
 To use this module in your configuration, use this repository as a source:
 
 ```hcl
@@ -27,7 +29,7 @@ module "MODULE_NAME" {
 
 - `project_tag`: The value for tag 'Project'.
 
-- `environment_tag`: The value for tag 'Environment'.
+- `environment_tag`: The value for tag 'Environment'. The name of the service user will be named afte the environment (automatically prefixed by 's3resource.accessor-').
 
 
 ## Optional variables
