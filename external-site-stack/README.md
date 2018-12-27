@@ -26,6 +26,7 @@ module "MODULE_NAME" {
   hosted_zone_id        = "${var.hosted_zone_id}"
   index_document        = "${var.index_document}"
   error_document        = "${var.error_document}"
+  custom_headers        = "${var.custom_headers}"
 }
 ```
 
@@ -59,7 +60,9 @@ To resolve this issue, simply run `terraform apply` again.
 
 ## Optional variables
 
-- `domain_env_prefix`: The domain prefix to the root domain.
+- `domain_env_prefix`: (OPTIONAL) The domain prefix to the root domain.
+
+- `custom_headers`: (OPTIONAL) Custom headers to forward through Cloudfront.
 
 
 ## Pre-requisites

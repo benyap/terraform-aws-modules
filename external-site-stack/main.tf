@@ -24,6 +24,7 @@ module "site-cdn" {
   domain_aliases      = [
     "${var.domain_env_prefix}${var.domain_name}"
   ]
+  custom_headers      = "${var.custom_headers}"
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
 
