@@ -16,6 +16,7 @@ module "MODULE_NAME" {
   domain_aliases      = [
     "${var.domain_alias}"
   ]
+  custom_headers      = "${var.custom_headers}"
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
 
@@ -59,6 +60,8 @@ module "MODULE_NAME" {
 - `logging_prefix`: (OPTIONAL) The prefix to attach to logs in the logging bucket (default is "").
 
 - `allowed_methods`: (OPTIONAL) The allowed methods for this distribution (default is all HTTP methods).
+
+- `custom_headers`: (OPTIONAL) Custom headers to forward through Cloudfront.
 
 - `forward_query_string`: (OPTIONAL) Forward the query string to the origin (default is false).
 
