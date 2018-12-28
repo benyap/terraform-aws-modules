@@ -49,8 +49,3 @@ variable "allowed_methods" {
   description = "The allowed methods for this distribution"
   default     = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
 }
-
-variable "custom_headers" {
-  description = "Custom headers to forward through Cloudfront"
-  default     = {}
-}

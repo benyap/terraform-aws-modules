@@ -40,8 +40,3 @@ variable "error_document" {
   description = "The name of the error file for the website"
   default     = ""
 }
-
-variable "custom_headers" {
-  description = "Custom headers to forward through Cloudfront"
-  default     = {}
-}
