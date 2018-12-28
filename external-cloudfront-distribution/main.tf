@@ -39,7 +39,7 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
 
     forwarded_values {
       query_string  = "${var.forward_query_string}"
-      headers       = "${var.forwaded_headers}"
+      headers       = "${var.forwarded_headers}"
 
       cookies {
         forward     = "none"
