@@ -16,6 +16,13 @@ module "MODULE_NAME" {
   domain_aliases      = [
     "${var.domain_alias}"
   ]
+  forwarded_headers   = [
+    "${var.forwarded_header_value_or_pattern}"
+  ]
+  custom_headers      = [{
+    name  = "${var.custom_header_1_name}",
+    value = "${var.custom_header_1_value}"
+  }]
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
 
@@ -47,6 +54,10 @@ module "MODULE_NAME" {
 ## Optional variables
 
 - `domain_aliases`: (OPTIONAL) Alternate domain names (CNAME) for this distribution (default is []).
+
+- `forwarded_headers`: (OPTIONAL) Headers for Cloudfront to forward from the host request (defualt is []).
+
+- `custom_headers`: (OPTIONAL) Custom headers for Cloudfront add to requests (default is []).
 
 - `index_document`: (OPTIONAL) The index document file name for the site (default is "").
 

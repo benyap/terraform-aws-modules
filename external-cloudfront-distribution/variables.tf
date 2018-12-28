@@ -49,3 +49,13 @@ variable "allowed_methods" {
   description = "The allowed methods for this distribution"
   default     = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
 }
+
+variable "forwarded_headers" {
+  description = "Headers for Cloudfront to forward from the host request"
+  default = []
+}
+
+variable "custom_headers" {
+  description = "Custom headers for Cloudfront add to requests"
+  default = []
+}

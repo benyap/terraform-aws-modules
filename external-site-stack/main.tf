@@ -26,6 +26,8 @@ module "site-cdn" {
   ]
   index_document      = "${var.index_document}"
   error_document      = "${var.error_document}"
+  forwarded_headers   = "${var.forwarded_headers}"
+  custom_headers      = "${var.custom_headers}"
 
   logging_enabled     = false
 

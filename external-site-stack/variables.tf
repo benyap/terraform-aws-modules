@@ -40,3 +40,13 @@ variable "error_document" {
   description = "The name of the error file for the website"
   default     = ""
 }
+
+variable "forwarded_headers" {
+  description = "Headers for Cloudfront to forward from the host request"
+  default = []
+}
+
+variable "custom_headers" {
+  description = "Custom headers for Cloudfront add to requests"
+  default = []
+}

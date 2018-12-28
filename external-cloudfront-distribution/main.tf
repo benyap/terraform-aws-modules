@@ -15,6 +15,8 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
       https_port              = "443"
       origin_ssl_protocols    = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
+    
+    custom_header = "${var.custom_headers}"
   }
 
   aliases       = "${var.domain_aliases}"
@@ -31,12 +33,13 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
     response_page_path    = "/${var.error_document}"
   }
 
-  "default_cache_behavior" {
+  default_cache_behavior {
     allowed_methods = "${var.allowed_methods}"
     cached_methods  = ["GET", "HEAD"]
 
-    "forwarded_values" {
+    forwarded_values {
       query_string  = "${var.forward_query_string}"
+      headers       = "${var.forwaded_headers}"
 
       cookies {
         forward     = "none"
@@ -52,13 +55,13 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
     compress               = true
   }
 
-  "restrictions" {
-    "geo_restriction" {
+  restrictions {
+    geo_restriction {
       restriction_type = "none"
     }
   }
 
-  "viewer_certificate" {
+  viewer_certificate {
     acm_certificate_arn       = "${var.certificate_arn}"
     ssl_support_method        = "sni-only"
     minimum_protocol_version  = "TLSv1"
@@ -108,11 +111,11 @@ resource "aws_cloudfront_distribution" "external-domain-cdn-with-logging" {
     response_page_path    = "/${var.error_document}"
   }
 
-  "default_cache_behavior" {
+  default_cache_behavior {
     allowed_methods = "${var.allowed_methods}"
     cached_methods  = ["GET", "HEAD"]
 
-    "forwarded_values" {
+    forwarded_values {
       query_string  = "${var.forward_query_string}"
 
       cookies {
@@ -129,13 +132,13 @@ resource "aws_cloudfront_distribution" "external-domain-cdn-with-logging" {
     compress               = true
   }
 
-  "restrictions" {
-    "geo_restriction" {
+  restrictions {
+    geo_restriction {
       restriction_type = "none"
     }
   }
 
-  "viewer_certificate" {
+  viewer_certificate {
     acm_certificate_arn       = "${var.certificate_arn}"
     ssl_support_method        = "sni-only"
     minimum_protocol_version  = "TLSv1"
