@@ -27,13 +27,6 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
 
   default_root_object = "${var.index_document}"
 
-  custom_error_response {
-    error_code            = "404"
-    error_caching_min_ttl = "360"
-    response_code         = "200"
-    response_page_path    = "/${var.error_document}"
-  }
-
   default_cache_behavior {
     allowed_methods = "${var.allowed_methods}"
     cached_methods  = ["GET", "HEAD"]
@@ -104,13 +97,6 @@ resource "aws_cloudfront_distribution" "external-domain-cdn-with-logging" {
     include_cookies = false
     bucket          = "${var.logging_bucket}"
     prefix          = "${var.logging_prefix}"
-  }
-
-  custom_error_response {
-    error_code            = "404"
-    error_caching_min_ttl = "360"
-    response_code         = "200"
-    response_page_path    = "/${var.error_document}"
   }
 
   default_cache_behavior {
