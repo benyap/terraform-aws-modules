@@ -15,7 +15,12 @@ variable "domain_name" {
 }
 
 variable "external_site_origin" {
-  description = "The origin URL of the external site to point to"
+  description = "The DNS domain name of the external site to point to"
+}
+
+variable "origin_path" {
+  description = "A path for CloudFront to request your content from within your S3 bucket or your custom origin"
+  default = ""
 }
 
 variable "domain_env_prefix" {

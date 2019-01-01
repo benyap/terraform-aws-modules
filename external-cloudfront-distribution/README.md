@@ -11,7 +11,8 @@ module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-cloudfront-distribution"
 
   origin_id           = "${var.origin_id}"
-  website_endpoint    = "${var.website_endpoint}"
+  domain_name         = "${var.website_domain}"
+  origin_path         = "${var.origin_path}"
   certificate_arn     = "${var.certificate_arn}"
   domain_aliases      = [
     "${var.domain_alias}"
@@ -40,7 +41,7 @@ module "MODULE_NAME" {
 
 - `origin_id`: The name for the origin.
 
-- `website_endpoint`: The endpoint URL for the distribution.
+- `domain_name`: The DNS domain name of either the S3 bucket, or web site of your custom origin.
 
 - `certificate_arn`: The id of an SSL certificate for this domain from AWS Certificate Manager.
 
@@ -52,6 +53,8 @@ module "MODULE_NAME" {
 
 
 ## Optional variables
+
+- `origin_path`: (OPTIONAL) A path for CloudFront to request your content from within your S3 bucket or your custom origin. Must begin with a slash (/).
 
 - `domain_aliases`: (OPTIONAL) Alternate domain names (CNAME) for this distribution (default is []).
 

@@ -2,8 +2,13 @@ variable "origin_id" {
   description = "The name for the origin"
 }
 
-variable "website_endpoint" {
-  description = "The endpoint URL for the distribution"
+variable "domain_name" {
+  description = "The DNS domain name of either the S3 bucket, or web site of your custom origin"
+}
+
+variable "origin_path" {
+  description = "A path for CloudFront to request your content from within your S3 bucket or your custom origin"
+  default = ""
 }
 
 variable "forward_query_string" {

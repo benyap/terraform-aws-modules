@@ -7,7 +7,8 @@ resource "aws_cloudfront_distribution" "external-domain-cdn" {
 
   origin {
     origin_id   = "${var.origin_id}"
-    domain_name = "${var.website_endpoint}"
+    domain_name = "${var.domain_name}"
+    origin_path = "${var.origin_path}"
 
     custom_origin_config {
       origin_protocol_policy  = "https-only"

@@ -19,7 +19,8 @@ module "site-cdn" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-cloudfront-distribution"
 
   origin_id           = "${replace(var.external_site_origin, ".", "-")}-origin"
-  website_endpoint    = "${var.external_site_origin}"
+  domain_name         = "${var.external_site_origin}"
+  origin_path         = "${var.origin_path}"
   certificate_arn     = "${module.site-cert.certificate_arn}"
   domain_aliases      = [
     "${var.domain_env_prefix}${var.domain_name}"

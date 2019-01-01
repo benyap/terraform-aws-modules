@@ -22,6 +22,7 @@ module "MODULE_NAME" {
   domain_name           = "${var.domain_name}"
   domain_env_prefix     = "${var.domain_env_prefix}"
   external_site_origin  = "${var.external_site_origin}"
+  origin_path           = "${var.origin_path}"
   environment_tag       = "${var.environment_tag}"
   hosted_zone_id        = "${var.hosted_zone_id}"
   index_document        = "${var.index_document}"
@@ -53,7 +54,7 @@ To resolve this issue, simply run `terraform apply` again.
 
 - `domain_name`: The name of the domain to create.
 
-- `external_site_origin`: The origin URL of the external site to point to.
+- `external_site_origin`: The DNS domain name of the external site to point to.
 
 - `environment_tag`: The value for tag 'Environment'.
 
@@ -65,6 +66,8 @@ To resolve this issue, simply run `terraform apply` again.
 
 
 ## Optional variables
+
+- `origin_path`: (OPTIONAL) A path for CloudFront to request your content from within your S3 bucket or your custom origin.
 
 - `domain_env_prefix`: (OPTIONAL) The domain prefix to the root domain.
 
