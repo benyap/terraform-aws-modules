@@ -49,7 +49,10 @@ export const handler = (
       return chain.then(promise);
     }, Promise.resolve(data))
     .then(data => {
-      data.log({ level: "info", message: "Process finished successfully." });
+      data.log({
+        level: "info",
+        message: "Process finished successfully."
+      });
       return data.callback();
     })
     .catch(error => {
@@ -81,8 +84,9 @@ export const parseEvent = async (data: Data) => {
     event.Records[0].eventVersion !== "1.0"
   ) {
     log({
-      message: "parseEvent() received invalid SES message:",
       level: "error",
+      step: "parseEvent",
+      message: "parseEvent() received invalid SES message:",
       event: JSON.stringify(data.event)
     });
     return Promise.reject(new Error("Error: Received invalid SES message."));
@@ -100,7 +104,7 @@ export const parseEvent = async (data: Data) => {
  * Populates the `emailsToForward` field in `data`.
  */
 export const transformRecipients = async (data: Data) => {
-  const { recipients = [] } = data;
+  const { recipients = [], log } = data;
 
   // Map each recipient to a new email.
   data.emailsToForward = recipients
@@ -114,6 +118,12 @@ export const transformRecipients = async (data: Data) => {
         recipients: []
       };
 
+      log({
+        level: "info",
+        step: "transformRecipients",
+        message: `Transforming recipients for ${emailKey}.`
+      });
+
       /**
        * Use a given key to get an email's mapped destination.
        * @param key a key that is known to have a match in `forwardMapping`
@@ -125,6 +135,11 @@ export const transformRecipients = async (data: Data) => {
         if (prefixMapping[key]) {
           forward.prefix = prefixMapping[key];
         }
+        log({
+          level: "info",
+          step: "transformRecipients",
+          message: `Adding forwarding from ${key} to [${forwardMapping[key]}]`
+        });
       };
 
       // Check if the email has a direct match
@@ -151,7 +166,7 @@ export const transformRecipients = async (data: Data) => {
       return forward;
     })
     // Filter out any emails that have no recipients
-    .filter(email => email.recipients.length);
+    .filter(email => email.recipients.length > 0);
 
   return data;
 };
@@ -174,6 +189,7 @@ export const fetchMessage = async (data: Data) => {
 
   log({
     level: "info",
+    step: "fetchMessage",
     message: `Fetching email at s3://${source}`
   });
 
@@ -193,6 +209,7 @@ export const fetchMessage = async (data: Data) => {
         if (error) {
           log({
             level: "error",
+            step: "fetchMessage",
             message: `copyObject() returned error for ${source}`,
             error,
             stack: error.stack
@@ -209,6 +226,7 @@ export const fetchMessage = async (data: Data) => {
           if (error) {
             log({
               level: "error",
+              step: "fetchMessage",
               message: `getObject() returned error for ${source}`,
               error,
               stack: error.stack
@@ -237,6 +255,7 @@ export const processMessage = async (data: Data) => {
   const {
     emailData = "",
     config: { fromEmail },
+    emailsToForward = [],
     log
   } = data;
 
@@ -252,11 +271,13 @@ export const processMessage = async (data: Data) => {
       header = header + "Reply-To: " + from;
       log({
         level: "info",
-        message: "Added Reply-To address of: " + from
+        step: "processMessage",
+        message: "Added Reply-To address of " + from
       });
     } else {
       log({
         level: "info",
+        step: "processMessage",
         message:
           "Reply-To address not added because 'From' address was not properly extracted."
       });
@@ -287,7 +308,7 @@ export const processMessage = async (data: Data) => {
   header = header.replace(/^DKIM-Signature: .*\r?\n(\s+.*\r?\n)*/gm, "");
 
   // Customise data for each email that needs to be forwarded.
-  data.emailsToForward = data.emailsToForward!.map(email => {
+  data.emailsToForward = emailsToForward.map(email => {
     let finalHeader = header;
 
     // Check if we need to customise the prefix
@@ -317,7 +338,8 @@ export const sendMessage = async (data: Data) => {
 
   log({
     level: "info",
-    message: `sendMessage: Sending ${emailsToForward.length} email${
+    step: "sendMessage",
+    message: `Sending ${emailsToForward.length} email${
       emailsToForward.length === 1 ? "" : "s"
     } via SES.`
   });
@@ -340,6 +362,7 @@ export const sendMessage = async (data: Data) => {
               if (error) {
                 log({
                   level: "error",
+                  step: "sendMessage",
                   message: `Failed to forward email from ${
                     email.originalRecipient
                   } to [${email.recipients.join(", ")}].`,
@@ -358,6 +381,7 @@ export const sendMessage = async (data: Data) => {
               // Log successful message
               log({
                 level: "info",
+                step: "sendMessage",
                 message: `Email to ${
                   email.originalRecipient
                 } forwarded to [${email.recipients.join(", ")}].`,
