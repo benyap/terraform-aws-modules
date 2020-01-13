@@ -26,6 +26,10 @@ exports.handler = (event, context, callback) => {
         ses: new AWS.SES(),
         s3: new AWS.S3({ signatureVersion: "v4" })
     };
+    data.log({
+        level: "info",
+        message: config
+    });
     // Run steps
     [exports.parseEvent, exports.transformRecipients, exports.fetchMessage, exports.processMessage, exports.sendMessage]
         // Chain promises together!
