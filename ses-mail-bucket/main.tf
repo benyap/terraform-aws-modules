@@ -14,9 +14,9 @@ locals {
 # Create policy which allows SES to put objects in bucket
 data "aws_iam_policy_document" "bucket-policy-document" {
   statement {
-    sid     = "AllowSESPuts"
-    effect  = "Allow"
-    actions = ["s3:PutObject"]
+    sid       = "AllowSESPuts"
+    effect    = "Allow"
+    actions   = ["s3:PutObject"]
     resources = ["arn:aws:s3:::${local.bucket_name}/*"]
 
     principals {
@@ -27,15 +27,15 @@ data "aws_iam_policy_document" "bucket-policy-document" {
     condition {
       test     = "StringEquals"
       variable = "aws:Referer"
-      values = ["${var.account_id}"]
+      values   = [var.account_id]
     }
   }
 }
 
 # Create bucket to store emails
 resource "aws_s3_bucket" "email-bucket" {
-  bucket = "${local.bucket_name}"
-  policy = "${data.aws_iam_policy_document.bucket-policy-document.json}"
+  bucket = local.bucket_name
+  policy = data.aws_iam_policy_document.bucket-policy-document.json
 
   lifecycle_rule {
     id      = "email-rule"
@@ -47,7 +47,7 @@ resource "aws_s3_bucket" "email-bucket" {
     }
 
     transition {
-      days = 60
+      days          = 60
       storage_class = "ONEZONE_IA"
     }
 
@@ -62,8 +62,8 @@ resource "aws_s3_bucket" "email-bucket" {
   }
 
   tags {
-    Project     = "${var.project_tag}"
-    Environment = "${var.environment_tag}"
+    Project     = var.project_tag
+    Environment = var.environment_tag
     Name        = "${var.project_tag}-${var.environment_tag}-${var.type_tag}"
   }
 }

@@ -34,7 +34,7 @@ variable "rule_set_name" {
 
 variable "rule_set_recipients" {
   description = "The list of accepted recipients for the rule set"
-  type = "list"
+  type        = list(string)
 }
 
 variable "after" {

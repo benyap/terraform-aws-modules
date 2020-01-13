@@ -1,3 +1,3 @@
 output "domain_identity" {
-  value = "${var.email_domain}"
+  value = var.email_domain
 }
