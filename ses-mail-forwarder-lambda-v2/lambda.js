@@ -71,7 +71,7 @@ exports.parseEvent = function(data) {
  * @return {object} - Promise resolved with data.
  */
 exports.transformRecipients = function(data) {
-  const newRecipients = [];
+  let newRecipients = [];
 
   data.originalRecipients = data.recipients;
 
