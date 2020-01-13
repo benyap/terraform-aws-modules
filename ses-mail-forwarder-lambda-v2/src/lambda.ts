@@ -130,7 +130,7 @@ export const transformRecipients = async (data: Data) => {
        */
       const addEmailWithKey = (key: string) => {
         // Use key to get mapping
-        forward.recipients.concat(forwardMapping[key]);
+        forward.recipients = forward.recipients.concat(forwardMapping[key]);
         // Check for a matching prefix
         if (prefixMapping[key]) {
           forward.prefix = prefixMapping[key];
