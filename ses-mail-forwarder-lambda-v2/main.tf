@@ -96,13 +96,13 @@ resource "aws_lambda_function" "fwd-lambda" {
     }
   }
 
-  tags = "${merge(var.tags,
+  tags = merge(var.tags,
     map(
       "Name", "${var.project_tag}-${var.environment_tag}-${var.type_tag}",
       "Environment", var.environment_tag,
       "Project", var.project_tag
     )
-  )}"
+  )
 }
 
 # Allow Lambda to execute SES functions
