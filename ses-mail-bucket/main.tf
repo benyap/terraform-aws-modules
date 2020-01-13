@@ -61,7 +61,7 @@ resource "aws_s3_bucket" "email-bucket" {
     }
   }
 
-  tags {
+  tags = {
     Project     = var.project_tag
     Environment = var.environment_tag
     Name        = "${var.project_tag}-${var.environment_tag}-${var.type_tag}"
