@@ -1,5 +1,7 @@
 # SES mail bucket
 
+_Terraform version: `v0.12.x`_
+
 This module creates an S3 bucket to store emails, configured with the appropriate access for SES and lifecycle rules for object management.
 
 **Note that this module requires a provider in the region `us-east-1`.**
@@ -33,20 +35,17 @@ module "MODULE_NAME" {
 
 - `environment_tag`: The value for tag 'Environment'.
 
-
 ## Optional variables
 
 - `type_tag`: (OPTIONAL) The value for tag 'Type' (default is "email_s3_bucket").
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 
-
 ## Outputs
 
 - `bucket_name`: The name of the bucket created.
 
 - `name_tag`: The value of the 'Name' tag, constructed from the project, environment and type.
-
 
 ## Pre-requisites
 
@@ -58,9 +57,7 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "ses:*"
-      ],
+      "Action": ["ses:*"],
       "Resource": ["*"]
     }
   ]

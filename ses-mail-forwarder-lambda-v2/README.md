@@ -1,5 +1,7 @@
 # SES mail forwarder lambda v2
 
+_Terraform version: `v0.12.x`_
+
 This module configures SES to receive emails on a custom domain and creats a Lambda function to automatically store emails in an **existing** S3 bucket and forward them to an external email.
 
 You can use the [`ses-mail-bucket`](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) module to create an S3 bucket that is pre-configured for use by this module.

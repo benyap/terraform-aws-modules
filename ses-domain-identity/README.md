@@ -1,6 +1,8 @@
 # SES domain identity
 
-This module sets up a domain identity for SES and verifies it on Route53. 
+_Terraform version: `v0.12.x`_
+
+This module sets up a domain identity for SES and verifies it on Route53.
 
 **Note that this module will create a provider in the region `us-east-1`.**
 
@@ -26,11 +28,9 @@ module "MODULE_NAME" {
 
 - `hosted_zone_id`: The id of the hosted zone the domain was registered in.
 
-
 ## Outputs
 
 - `domain_identity`: The name of domain identity.
-
 
 ## Pre-requisites
 
@@ -42,10 +42,7 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "route53:*",
-        "ses:*"
-      ],
+      "Action": ["route53:*", "ses:*"],
       "Resource": ["*"]
     }
   ]

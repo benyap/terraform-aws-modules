@@ -1,5 +1,7 @@
 # SES receipt rule set
 
+_Terraform version: `v0.12.x`_
+
 This module creates and activates an SES receipt rule set.
 
 **Note that this module requires a provider in the region `us-east-1`.**
@@ -23,11 +25,9 @@ module "MODULE_NAME" {
 
 - `rule_set_name`: The name of the receipt rule set to create and activate.
 
-
 ## Outputs
 
 - `rule_set_name`: The name of the receipt rule set.
-
 
 ## Pre-requisites
 
@@ -39,9 +39,7 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "ses:*"
-      ],
+      "Action": ["ses:*"],
       "Resource": ["*"]
     }
   ]
