@@ -34,6 +34,11 @@ export const handler = (
     s3: new AWS.S3({ signatureVersion: "v4" })
   };
 
+  data.log({
+    level: "info",
+    message: config
+  });
+
   // Run steps
   [parseEvent, transformRecipients, fetchMessage, processMessage, sendMessage]
     // Chain promises together!
