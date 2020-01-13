@@ -116,4 +116,4 @@ To apply or destroy this configuration, you require the following permissions on
 
 ## Credit
 
-The original SES Lambda forwarder is based off work by [arithmetric](https://github.com/arithmetric/aws-lambda-ses-forwarder).
+The Lambda function used in this module is based off work by [arithmetric's original SES Lambda forwarder](https://github.com/arithmetric/aws-lambda-ses-forwarder).

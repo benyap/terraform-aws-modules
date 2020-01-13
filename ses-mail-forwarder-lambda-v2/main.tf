@@ -72,7 +72,7 @@ resource "aws_iam_role_policy_attachment" "fwd-lambda-role-policy" {
 # Zip up lambda script
 data "archive_file" "lambda-source" {
   type        = "zip"
-  source_file = "${path.module}/lambda.js"
+  source_file = "${path.module}/lib/lambda.js"
   output_path = "${path.module}/lambda.js.zip"
 }
 
