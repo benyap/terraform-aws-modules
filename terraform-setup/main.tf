@@ -105,7 +105,7 @@ resource "aws_iam_policy" "terraform-switch-role-policy" {
 
 # Create group for Terrafrom users
 resource "aws_iam_group" "terraform-group" {
-  name = "terraform-setup-admin"
+  name = var.terraform_group_name
   path = "/terraform/"
 }
 

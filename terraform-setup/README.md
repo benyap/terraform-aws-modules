@@ -18,10 +18,11 @@ To use this module in your configuration, use this repository subdirectory as a 
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//terraform-setup"
 
-  aws_region            = "${var.aws_region}"
-  account_id            = "${var.account_id}"
-  backend_bucket_name   = "${var.backend_bucket_name}"
-  terraform_role_name   = "${var.terraform_role_name}"
+  aws_region            = var.aws_region
+  account_id            = var.account_id
+  backend_bucket_name   = var.backend_bucket_name
+  terraform_role_name   = var.terraform_role_name
+  terraform_group_name  = var.terraform_group_name
 }
 ```
 
@@ -33,7 +34,9 @@ module "MODULE_NAME" {
 
 - `backend_bucket_name`: The name of the bucket to store the Terraform state in
 
-- `terraform_role_name`: The name of the Terraform role
+- `terraform_role_name`: (OPTIONAL) The name of the Terraform role
+
+- `terraform_group_name`: (OPTIONAL) The name of the group for Terraform users
 
 ## Outputs
 
