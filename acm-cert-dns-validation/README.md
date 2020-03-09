@@ -10,7 +10,7 @@ To use this module in your configuration, use this repository as a source:
 ```hcl
 # Example usage
 module "MODULE_NAME" {
-  source = "git@github.com:bwyap/terraform-aws-modules.git//acm-cert-dns-validatation"
+  source = "git@github.com:bwyap/terraform-aws-modules.git//acm-cert-dns-validation"
 
   account_id      = var.account_id
   role_name       = var.role_name
