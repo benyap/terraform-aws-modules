@@ -1,5 +1,7 @@
 # Route53 Alias Record
 
+_Terraform version: `v0.12.x`_
+
 This module creates an Alias record on Route53 that points to a Cloudfront distribution.
 This module requires that you have provisioned a Cloudfront distribution.
 
@@ -10,10 +12,10 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//route53-alias-record"
 
-  record_zone_id  = "${var.record_zone_id}"
-  domain_name     = "${var.domain_name}"
-  cdn_zone_id     = "${var.cdn_zone_id}"
-  cdn_domain_name = "${var.cdn_domain_name}"
+  record_zone_id  = var.record_zone_id
+  domain_name     = var.domain_name
+  cdn_zone_id     = var.cdn_zone_id
+  cdn_domain_name = var.cdn_domain_name
 }
 ```
 
@@ -27,13 +29,11 @@ module "MODULE_NAME" {
 
 - `cdn_domain_name`: The domain for the CloudFront distribution this record should point to.
 
-
 ## Outputs
 
 - `record_name`: The name of the record.
 
 - `fqdn`: The fully qualified domain name built using the zone domain and name.
-
 
 ## Pre-requisites
 

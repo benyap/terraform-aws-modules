@@ -17,11 +17,11 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
-  account_id    = "${var.account_id}"
-  email_domain  = "${var.email_domain}"
+  account_id    = var.account_id
+  email_domain  = var.email_domain
 
-  project_tag       = "${var.project_tag}"
-  environment_tag   = "${var.environment_tag}"
+  project_tag       = var.project_tag
+  environment_tag   = var.environment_tag
 }
 ```
 

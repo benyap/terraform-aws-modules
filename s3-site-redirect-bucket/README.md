@@ -1,5 +1,7 @@
 # S3 Site redirect bucket
 
+_Terraform version: `v0.12.x`_
+
 This module creates and configures an S3 bucket for redirection.
 
 To use this module in your configuration, use this repository as a source:
@@ -9,15 +11,15 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//s3-site-redirect-bucket"
 
-  aws_region        = "${var.aws_region}"
-  bucket_name       = "${var.bucket_name}"
-  redirect_target   = "${var.redirect_target}"
+  aws_region        = var.aws_region
+  bucket_name       = var.bucket_name
+  redirect_target   = var.redirect_target
   redirect_protocol = "https"
-  duplicate_content_penalty_secret = "${var.content_secret}"
+  duplicate_content_penalty_secret = var.content_secret
 
-  project_tag     = "${var.project_tag}"
-  environment_tag = "${var.environment_tag}"
-  type_tag        = "${var.type_tag}"
+  project_tag     = var.project_tag
+  environment_tag = var.environment_tag
+  type_tag        = var.type_tag
 }
 ```
 
@@ -39,11 +41,9 @@ module "MODULE_NAME" {
 
 - `type_tag`: The value for tag 'Type'.
 
-
 ## Optional variables
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
-
 
 ## Outputs
 
@@ -58,7 +58,6 @@ module "MODULE_NAME" {
 - `website_domain`: The domain of the website endpoint.
 
 - `name_tag`: The value of the 'Name' tag, constructed from the project, environment and domain.
-
 
 ## Pre-requisites
 

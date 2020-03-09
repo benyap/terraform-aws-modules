@@ -4,8 +4,8 @@
 
 # Create the default AWS provider
 provider "aws" {
-  region  = "${var.aws_region}"
-  version = "~>1.35"
+  region  = var.aws_region
+  version = "~> 2.0"
 }
 
 provider "template" {
@@ -30,16 +30,16 @@ data "aws_iam_policy_document" "terraform-role-policy" {
 }
 
 resource "aws_iam_role" "terraform-role" {
-  name = "${var.terraform_role_name}"
-  description = "This role gives Terraform users permissions to manage infrastructure"
-  assume_role_policy = "${data.aws_iam_policy_document.terraform-role-policy.json}"
+  name               = var.terraform_role_name
+  description        = "This role gives Terraform users permissions to manage infrastructure"
+  assume_role_policy = data.aws_iam_policy_document.terraform-role-policy.json
 }
 
 
 # Create S3 bucket for backend
 resource "aws_s3_bucket" "backend-bucket" {
-  bucket = "${var.backend_bucket_name}"
-  region = "${var.aws_region}"
+  bucket = var.backend_bucket_name
+  region = var.aws_region
   acl    = "private"
 }
 
@@ -47,8 +47,8 @@ resource "aws_s3_bucket" "backend-bucket" {
 # Create policy for Terraform users to access S3 bucket
 data "aws_iam_policy_document" "terraform-state-policy-document" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "s3:ListAllMyBuckets",
       "s3:HeadBucket"
     ]
@@ -56,8 +56,8 @@ data "aws_iam_policy_document" "terraform-state-policy-document" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "s3:ListBucket",
       "s3:ListObjects",
       "s3:PutObject",
@@ -75,14 +75,14 @@ resource "aws_iam_policy" "terraform-state-policy" {
   name        = "TerraformStateBucketAccess"
   path        = "/terraform/"
   description = "This policy allows access to the S3 bucket storing Terraform state."
-  policy      = "${data.aws_iam_policy_document.terraform-state-policy-document.json}"
+  policy      = data.aws_iam_policy_document.terraform-state-policy-document.json
 }
 
 
 # Attach backend access policy to Terraform role
 resource "aws_iam_role_policy_attachment" "attachment" {
-    role       = "${aws_iam_role.terraform-role.name}"
-    policy_arn = "${aws_iam_policy.terraform-state-policy.arn}"
+  role       = aws_iam_role.terraform-role.name
+  policy_arn = aws_iam_policy.terraform-state-policy.arn
 }
 
 
@@ -99,24 +99,24 @@ resource "aws_iam_policy" "terraform-switch-role-policy" {
   name        = "TerraformSwitchRole"
   path        = "/terraform/"
   description = "This policy allows users to switch to the Terraform role."
-  policy      = "${data.aws_iam_policy_document.terraform-switch-role-policy-document.json}"
+  policy      = data.aws_iam_policy_document.terraform-switch-role-policy-document.json
 }
 
 
 # Create group for Terrafrom users
 resource "aws_iam_group" "terraform-group" {
-  name = "${var.terraform_group_name}"
+  name = "terraform-setup-admin"
   path = "/terraform/"
 }
 
 
 # Attach policies to group
 resource "aws_iam_group_policy_attachment" "terraform-group-attach-state-policy" {
-  group      = "${aws_iam_group.terraform-group.name}"
-  policy_arn = "${aws_iam_policy.terraform-state-policy.arn}"
+  group      = aws_iam_group.terraform-group.name
+  policy_arn = aws_iam_policy.terraform-state-policy.arn
 }
 
 resource "aws_iam_group_policy_attachment" "terraform-group-attach-role-policy" {
-  group      = "${aws_iam_group.terraform-group.name}"
-  policy_arn = "${aws_iam_policy.terraform-switch-role-policy.arn}"
+  group      = aws_iam_group.terraform-group.name
+  policy_arn = aws_iam_policy.terraform-switch-role-policy.arn
 }

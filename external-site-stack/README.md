@@ -1,5 +1,7 @@
 # External site stack
 
+_Terraform version: `v0.12.x`_
+
 This module provisions the following resources to route to an external origin using a custom domain:
 
 - SSL certificate for your custom domain
@@ -15,25 +17,21 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-site-stack"
 
-  aws_region          = "${var.aws_region}"
-  account_id          = "${var.account_id}"
-  terraform_role_name = "${var.terraform_role_name}"
+  aws_region          = var.aws_region
+  account_id          = var.account_id
+  terraform_role_name = var.terraform_role_name
 
-  domain_name           = "${var.domain_name}"
-  domain_env_prefix     = "${var.domain_env_prefix}"
-  external_site_origin  = "${var.external_site_origin}"
-  origin_path           = "${var.origin_path}"
-  environment_tag       = "${var.environment_tag}"
-  hosted_zone_id        = "${var.hosted_zone_id}"
-  index_document        = "${var.index_document}"
-  error_document        = "${var.error_document}"
+  domain_name           = var.domain_name
+  domain_env_prefix     = var.domain_env_prefix
+  external_site_origin  = var.external_site_origin
+  origin_path           = var.origin_path
+  environment_tag       = var.environment_tag
+  hosted_zone_id        = var.hosted_zone_id
+  index_document        = var.index_document
+  error_document        = var.error_document
   forwarded_headers   = [
-    "${var.forwarded_header_value_or_pattern}"
+    var.forwarded_header_value_or_pattern
   ]
-  custom_headers      = [{
-    name  = "${var.custom_header_1_name}",
-    value = "${var.custom_header_1_value}"
-  }]
 }
 ```
 
@@ -46,6 +44,7 @@ error creating CloudFront Distribution: InvalidViewerCertificate: The specified 
 To resolve this issue, simply run `terraform apply` again.
 
 ## Required variables
+
 - `aws_region`: The name of the AWS region.
 
 - `account_id`: The account ID.
@@ -64,7 +63,6 @@ To resolve this issue, simply run `terraform apply` again.
 
 - `error_document`: The name of the error file for the website.
 
-
 ## Optional variables
 
 - `origin_path`: (OPTIONAL) A path for CloudFront to request your content from within your S3 bucket or your custom origin.
@@ -72,9 +70,6 @@ To resolve this issue, simply run `terraform apply` again.
 - `domain_env_prefix`: (OPTIONAL) The domain prefix to the root domain.
 
 - `forwarded_headers`: (OPTIONAL) Headers for Cloudfront to forward from the host request (defualt is []).
-
-- `custom_headers`: (OPTIONAL) Custom headers for Cloudfront add to requests (default is []).
-
 
 ## Pre-requisites
 

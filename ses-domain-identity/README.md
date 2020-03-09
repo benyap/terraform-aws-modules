@@ -17,8 +17,8 @@ module "MODULE_NAME" {
     aws = "aws.use1"
   }
 
-  email_domain      = "${var.email_domain}"
-  hosted_zone_id    = "${var.hosted_zone_id}"
+  email_domain      = var.email_domain
+  hosted_zone_id    = var.hosted_zone_id
 }
 ```
 

@@ -1,5 +1,5 @@
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   description = "Optional tags"
   default     = {}
 }
@@ -14,5 +14,5 @@ variable "environment_tag" {
 
 output "name_tag" {
   description = "The value of the 'Name' tag"
-  value = "${var.project_tag}-${var.environment_tag}-s3_bucket"
+  value       = "${var.project_tag}-${var.environment_tag}-s3_bucket"
 }

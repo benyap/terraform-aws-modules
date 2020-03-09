@@ -12,7 +12,7 @@ variable "rule_name" {
 
 variable "email_object_prefix" {
   description = "The prefix to add to the object name in S3"
-  default      = "bounced/"
+  default     = "bounced/"
 }
 
 variable "rule_set_name" {
@@ -21,12 +21,12 @@ variable "rule_set_name" {
 
 variable "bounce_recipients" {
   description = "The list of recipients to bounce for the rule set"
-  type = "list"
+  type        = list
 }
 
 variable "bounce_message" {
   description = "The message to send to the sender when the message is bounced"
-  default = "Unable to deliver this message."
+  default     = "Unable to deliver this message."
 }
 
 variable "bounce_sender" {

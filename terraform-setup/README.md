@@ -1,5 +1,7 @@
 # Terraform set up
 
+_Terraform version: `v0.12.x`_
+
 This module sets up the scaffolding for Terraform to be able to manage your infrastructure using good AWS IAM practices. This module should be run **ONCE** using an IAM user with full administrator access, which can be deleted afterwards.
 
 This module creates the following:
@@ -20,23 +22,18 @@ module "MODULE_NAME" {
   account_id            = "${var.account_id}"
   backend_bucket_name   = "${var.backend_bucket_name}"
   terraform_role_name   = "${var.terraform_role_name}"
-  terraform_group_name  = "${var.terraform_group_name}"
 }
 ```
-
 
 ## Variables required in `terraform.tfvars`
 
 - `aws_region`: The region the AWS resources will be created in
 
-- `account_id`: The account ID fo the root AWS account
+- `account_id`: The account ID for the root AWS account
 
 - `backend_bucket_name`: The name of the bucket to store the Terraform state in
 
 - `terraform_role_name`: The name of the Terraform role
-
-- `terraform_group_name`: The name of the group for Terraform users
-
 
 ## Outputs
 
@@ -48,14 +45,13 @@ module "MODULE_NAME" {
 
 - `terraform_role_description`
 
-- `terraform_ole_create_date`
-
+- `terraform_role_create_date`
 
 ## Pre-requisites
 
 1. Create an IAM user with adminstrator access.
-This use should only be used to set up the initial IAM settings and deleted afterwards.
-Save the user's access key and secret to ~/.aws/credentials file under a profile like so:
+   This use should only be used to set up the initial IAM settings and deleted afterwards.
+   Save the user's access key and secret to ~/.aws/credentials file under a profile like so:
 
 ```
 [PROFILE_NAME]

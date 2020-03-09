@@ -1,5 +1,7 @@
 # External Access
 
+_Terraform version: `v0.12.x`_
+
 This module sets up the external trust relationships for this account.
 This allows users to assume a role within this account from an external account.
 Note that the role by default will have no policies attached to it.
@@ -10,10 +12,10 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//external-access"
 
-  aws_region                = "${var.aws_region}"
-  account_id                = "${var.account_id}"
-  terraform_role_name       = "${var.terraform_role_name}"
-  external_access_role_name = "${var.external_access_role_name}"
+  aws_region                = var.aws_region
+  account_id                = var.account_id
+  terraform_role_name       = var.terraform_role_name
+  external_access_role_name = var.external_access_role_name
 
   allowed_arns = [
     "arn:aws:iam::${var.account_id}:root",
@@ -33,8 +35,7 @@ module "MODULE_NAME" {
 - `external_access_role_name`: The name of the role given to the external users.
 
 - `allowed_arns`: A list of ARNs of IAM users that are allowed to assume the external access role.
-This list should include the root account `arn:aws:iam::${var.account_id}:root`.
-
+  This list should include the root account `arn:aws:iam::${var.account_id}:root`.
 
 ## Outputs
 
@@ -47,7 +48,6 @@ This list should include the root account `arn:aws:iam::${var.account_id}:root`.
 - `role_description`
 
 - `role_create_date`
-
 
 ## Pre-requisites
 

@@ -1,5 +1,7 @@
 # S3 Site bucket
 
+_Terraform version: `v0.12.x`_
+
 This module creates and configures an S3 bucket for static site hosting.
 
 To use this module in your configuration, use this repository as a source:
@@ -9,11 +11,11 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//s3-site-bucket"
 
-  aws_region      = "${var.aws_region}"
-  bucket_name     = "${var.bucket_name}"
+  aws_region      = var.aws_region
+  bucket_name     = var.bucket_name
   index_document  = "index.html"
   error_document  = "error.html"
-  duplicate_content_penalty_secret = "${var.content_secret}"
+  duplicate_content_penalty_secret = var.content_secret
   routing_rules   = <<EOF
 [{
   "Condition": {
@@ -25,9 +27,9 @@ module "MODULE_NAME" {
 }]
 EOF
 
-  project_tag     = "${var.project_tag}"
-  environment_tag = "${var.environment_tag}"
-  type_tag        = "${var.type_tag}"
+  project_tag     = var.project_tag
+  environment_tag = var.environment_tag
+  type_tag        = var.type_tag
 }
 ```
 
@@ -49,13 +51,11 @@ EOF
 
 - `type_tag`: The value for tag 'Type'.
 
-
 ## Optional variables
 
 - `routing_rules`: (OPTIONAL) Routing rules for the S3 website.
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
-
 
 ## Outputs
 
@@ -70,7 +70,6 @@ EOF
 - `website_domain`: The domain of the website endpoint.
 
 - `name_tag`: The value of the 'Name' tag, constructed from the project, environment and domain.
-
 
 ## Pre-requisites
 

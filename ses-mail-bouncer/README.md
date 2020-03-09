@@ -1,5 +1,7 @@
 # SES mail bouncer
 
+_Terraform version: `v0.12.x`_
+
 This module configures SES to bounce emails on a custom domain, storing them in an **existing** S3 bucket.
 
 You can use the [`ses-mail-bucket`](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) module to create an S3 bucket that is pre-configured for use by this module.
@@ -17,13 +19,13 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
-  email_domain  = "${var.domain_name}"
-  bucket_name   = "${var.bucket_name}"
+  email_domain  = var.domain_name
+  bucket_name   = var.bucket_name
   rule_name     = "bounce_noreply"
 
   email_object_prefix     = "bounced/"
 
-  rule_set_name       = "${var.rule_set_name}"
+  rule_set_name       = var.rule_set_name
   bounce_recipients   = ["noreply@${var.domain_name}"]
   bounce_message      = "You cannot reply to this mailbox."
   bounce_sender       = "noreply@${var.domain_name}"
@@ -44,7 +46,6 @@ module "MODULE_NAME" {
 
 - `bounce_sender`: The email to send the bounce message from.
 
-
 ## Optional variables
 
 - `email_object_prefix`: (OPTIONAL) The prefix to add to the object name in S3 (default is "bounced/").
@@ -53,11 +54,9 @@ module "MODULE_NAME" {
 
 - `after`: (OPTIONAL) The name of the rule to position this rule after (default is "").
 
-
 ## Outputs
 
 - `bouncer_rule_name`: The name of the bouncer rule that was created.
-
 
 ## Pre-requisites
 
@@ -69,9 +68,7 @@ To apply or destroy this configuration, you require the following permissions on
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "ses:*"
-      ],
+      "Action": ["ses:*"],
       "Resource": ["*"]
     }
   ]

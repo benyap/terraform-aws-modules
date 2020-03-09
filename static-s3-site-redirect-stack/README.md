@@ -1,5 +1,7 @@
 # S3 static site redirect stack
 
+_Terraform version: `v0.12.x`_
+
 This module provisions the following resources to host a static site that redirects users via a custom domain:
 
 - S3 bucket with static site hosting and redirection
@@ -17,20 +19,21 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//static-s3-site-stack"
 
-  aws_region          = "${var.aws_region}"
-  account_id          = "${var.account_id}"
-  terraform_role_name = "${var.terraform_role_name}"
+  aws_region          = var.aws_region
+  account_id          = var.account_id
+  terraform_role_name = var.terraform_role_name
 
-  domain_name       = "${var.domain_name}"
-  domain_env_prefix = "${var.domain_env_prefix}"
-  environment_tag   = "${var.environment_tag}"
-  hosted_zone_id    = "${var.hosted_zone_id}"
-  redirect_target   = "${var.redirect_target}"
-  secret            = "${var.secret}"
+  domain_name       = var.domain_name
+  domain_env_prefix = var.domain_env_prefix
+  environment_tag   = var.environment_tag
+  hosted_zone_id    = var.hosted_zone_id
+  redirect_target   = var.redirect_target
+  secret            = var.secret
 }
 ```
 
 ## Required variables
+
 - `aws_region`: The name of the AWS region.
 
 - `account_id`: The account ID.
@@ -47,11 +50,9 @@ module "MODULE_NAME" {
 
 - `secret`: Value that will be used in a custom header for a CloudFront distribution to gain access to the origin S3 bucket.
 
-
 ## Optional variables
 
 - `domain_env_prefix`: The domain prefix to the root domain.
-
 
 ## Pre-requisites
 

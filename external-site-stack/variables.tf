@@ -20,7 +20,7 @@ variable "external_site_origin" {
 
 variable "origin_path" {
   description = "A path for CloudFront to request your content from within your S3 bucket or your custom origin"
-  default = ""
+  default     = ""
 }
 
 variable "domain_env_prefix" {
@@ -48,10 +48,5 @@ variable "error_document" {
 
 variable "forwarded_headers" {
   description = "Headers for Cloudfront to forward from the host request"
-  default = []
-}
-
-variable "custom_headers" {
-  description = "Custom headers for Cloudfront add to requests"
-  default = []
+  default     = []
 }

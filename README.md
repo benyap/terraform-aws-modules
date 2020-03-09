@@ -2,6 +2,7 @@
 
 A collection of modules for configuring and provisioning AWS resources through Terraform. For convenience.
 
+_All modules require Terraform version `v0.12.x`_
 
 ## Modules
 
@@ -44,8 +45,8 @@ Each module has its own README where you can find information about its inputs, 
 
 - [ses-mail-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bucket) for creating a S3 bucket that is configured for storing emails from SES
 
-- [ses-mail-forwarder-lambda](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-forwarder-lambda) for configuring SES 
-to receive and automatically forwarding emails on a custom email domain
+- [ses-mail-forwarder-lambda-v2](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-forwarder-lambda-v2) for configuring SES
+  to receive and automatically forwarding emails on a custom email domain
 
 - [ses-mail-bouncer](https://github.com/bwyap/terraform-aws-modules/tree/master/ses-mail-bouncer) for configuring SES to bounce specified email addresses on a custom email domain
 
@@ -53,11 +54,9 @@ to receive and automatically forwarding emails on a custom email domain
 
 - [s3-resource-bucket](https://github.com/bwyap/terraform-aws-modules/tree/master/s3-resource-bucket) for creating S3 buckets to store resources to be accessed by a backend
 
-
 ## Installation
 
 You will need Terraform installed on your computer. Go to [terraform.io](https://www.terraform.io/) to download. Make sure the command `terraform` is available from the command line.
-
 
 ## How to run these configurations
 
@@ -65,7 +64,7 @@ Each of these configurations contain a `README.md` file in its root, where it wi
 
 If it is your first time running a configuration, you will need to do the following:
 
-1. Set up the AWS credentials with the details of the IAM user Terraform will be using in the AWS credentials file at `~/.aws/credentials` like so: 
+1. Set up the AWS credentials with the details of the IAM user Terraform will be using in the AWS credentials file at `~/.aws/credentials` like so:
 
 ```
 [PROFILE_NAME]

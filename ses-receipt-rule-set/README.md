@@ -17,7 +17,7 @@ module "MODULE_NAME" {
     aws = "aws.us-east-1-provider"
   }
 
-  rule_set_name = "${var.rule_set_name}"
+  rule_set_name = var.rule_set_name
 }
 ```
 

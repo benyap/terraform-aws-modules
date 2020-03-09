@@ -1,5 +1,7 @@
 # S3 static site stack
 
+_Terraform version: `v0.12.x`_
+
 This module provisions the following resources to host a static site using a custom domain:
 
 - S3 bucket with static site hosting
@@ -17,19 +19,18 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//static-s3-site-stack"
 
-  aws_region          = "${var.aws_region}"
-  account_id          = "${var.account_id}"
-  terraform_role_name = "${var.terraform_role_name}"
+  aws_region          = var.aws_region
+  account_id          = var.account_id
+  terraform_role_name = var.terraform_role_name
 
-  domain_name       = "${var.domain_name}"
-  domain_env_prefix = "${var.domain_env_prefix}"
-  environment_tag   = "${var.environment_tag}"
-  hosted_zone_id    = "${var.hosted_zone_id}"
-  index_document    = "${var.index_document}"
-  error_document    = "${var.error_document}"
-  routing_rules     = "${var.routing_rules}"
-  secret            = "${var.secret}"
-}
+  domain_name       = var.domain_name
+  domain_env_prefix = var.domain_env_prefix
+  environment_tag   = var.environment_tag
+  hosted_zone_id    = var.hosted_zone_id
+  index_document    = var.index_document
+  error_document    = var.error_document
+  routing_rules     = var.routing_rules
+  secret            = var.secret
 ```
 
 **NOTE**: Sometimes, the SSL certificate does not finish validating before the Cloudfront distribution is created, causing Terraform to abort with the following error:
@@ -41,6 +42,7 @@ error creating CloudFront Distribution: InvalidViewerCertificate: The specified 
 To resolve this issue, simply run `terraform apply` again.
 
 ## Required variables
+
 - `aws_region`: The name of the AWS region.
 
 - `account_id`: The account ID.
@@ -59,13 +61,11 @@ To resolve this issue, simply run `terraform apply` again.
 
 - `secret`: Value that will be used in a custom header for a CloudFront distribution to gain access to the origin S3 bucket.
 
-
 ## Optional variables
 
 - `domain_env_prefix`: The domain prefix to the root domain.
 
 - `routing_rules`: Routing rules for the S3 website.
-
 
 ## Pre-requisites
 

@@ -1,5 +1,7 @@
 # S3 Site service user
 
+_Terraform version: `v0.12.x`_
+
 This module sets creates a service user with the appropriate permissions for deploying to an S3 site.
 
 **NOTE**: You will need to use the AWS console to manually create access keys for this user. By default, the created service user will have no access credentials.
@@ -22,13 +24,11 @@ module "MODULE_NAME" {
 
 - `bucket_name`: The name of the website bucket to give the service user access to.
 
-
 ## Outputs
 
 - `arn`: The ARN of the user that was created.
 
 - `name`: The name of the user that was created.
-
 
 ## Pre-requisites
 

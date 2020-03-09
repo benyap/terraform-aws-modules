@@ -1,5 +1,7 @@
 # Cloudfront distribution
 
+_Terraform version: `v0.12.x`_
+
 This module provisions a Cloudfront distribution for a static S3 site.
 This module requires that you have provisioned a static site on S3 and an SSL certificate in ACM.
 
@@ -10,23 +12,23 @@ To use this module in your configuration, use this repository as a source:
 module "MODULE_NAME" {
   source = "git@github.com:bwyap/terraform-aws-modules.git//cloudfront-distribution"
 
-  origin_id           = "${var.origin_id}"
-  website_endpoint    = "${var.website_endpoint}"
-  duplicate_content_penalty_secret = "${var.secret}"
-  certificate_arn     = "${var.certificate_arn}"
+  origin_id           = var.origin_id
+  website_endpoint    = var.website_endpoint
+  duplicate_content_penalty_secret = var.secret
+  certificate_arn     = "var.certificate_arn
   domain_aliases      = [
-    "${var.domain_alias}"
+    var.domain_alias
   ]
-  index_document      = "${var.index_document}"
-  error_document      = "${var.error_document}"
+  index_document      = var.index_document
+  error_document      = var.error_document
 
   logging_enabled     = true
-  logging_bucket      = "${var.logging_bucket}"
-  logging_prefix      = "${var.logging_prefix}"
+  logging_bucket      = var.logging_bucket
+  logging_prefix      = var.logging_prefix
 
-  project_tag     = "${var.project_tag}"
-  environment_tag = "${var.environment_tag}"
-  type_tag        = "${var.type_tag}"
+  project_tag     = var.project_tag
+  environment_tag = var.environment_tag
+  type_tag        = var.type_tag
 }
 ```
 
@@ -45,7 +47,6 @@ module "MODULE_NAME" {
 - `environment_tag`: The value for tag 'Environment'.
 
 - `type_tag`: The value for tag 'Type'.
-
 
 ## Optional variables
 
@@ -67,7 +68,6 @@ module "MODULE_NAME" {
 
 - `tags`: (OPTIONAL) A map of tags to add to the S3 bucket.
 
-
 ## Outputs
 
 - `cdn_domain_name`: The domain name name to access the distribution.
@@ -75,7 +75,6 @@ module "MODULE_NAME" {
 - `hosted_zone_id`: The hosted zone ID of the region the distribution is in.
 
 - `name_tag`: The value of the 'Name' tag, constructed from the project, environment and domain.
-
 
 ## Pre-requisites
 

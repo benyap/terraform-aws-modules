@@ -4,15 +4,15 @@
 
 # User for sending emails through SES
 resource "aws_iam_user" "ses-user" {
-  name = "ses.emailer-${var.user_name}"
-  path = "/serviceuser/"
+  name          = "ses.emailer-${var.user_name}"
+  path          = "/serviceuser/"
   force_destroy = true
 }
 
 # Give user required access to SES
 resource "aws_iam_user_policy" "ses-user-policy" {
-  name = "AllowAccessSESServiceUser-${var.user_name}"
-  user = "${aws_iam_user.ses-user.name}"
+  name   = "AllowAccessSESServiceUser-${var.user_name}"
+  user   = aws_iam_user.ses-user.name
   policy = <<EOF
 {
   "Version": "2012-10-17",
