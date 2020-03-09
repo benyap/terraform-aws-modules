@@ -13,7 +13,7 @@ To use this module in your configuration, use this repository as a source:
 ```hcl
 # Example usage
 module "MODULE_NAME" {
-  source = "git@github.com:bwyap/terraform-aws-modules.git//ses-forwarder-lambda-v2"
+  source = "git@github.com:bwyap/terraform-aws-modules.git//ses-mail-forwarder-lambda-v2"
 
   providers = {
     aws = "aws.us-east-1-provider"
