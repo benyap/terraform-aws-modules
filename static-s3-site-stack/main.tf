@@ -60,12 +60,10 @@ resource "aws_s3_bucket" "site-cdn-logging-bucket" {
     }
   }
 
-  tags = merge(var.tags,
-    map(
-      "Name", "${var.domain_name}-${var.environment_tag}-cdn_logging_s3_bucket",
-      "Environment", var.environment_tag,
-      "Project", var.domain_name
-    )
+  tags = map(
+    "Name", "${var.domain_name}-${var.environment_tag}-cdn_logging_s3_bucket",
+    "Environment", var.environment_tag,
+    "Project", var.domain_name
   )
 }
 

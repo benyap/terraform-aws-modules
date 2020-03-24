@@ -23,11 +23,11 @@ resource "aws_s3_bucket" "s3-resource-bucket" {
   policy = data.aws_iam_policy_document.s3-resource-bucket-policy.json
   region = var.aws_region
 
-  tags = merge("${var.tags}",
+  tags = merge(var.tags,
     map(
       "Name", "${var.project_tag}-${var.environment_tag}-s3_bucket",
-      "Environment", "${var.environment_tag}",
-      "Project", "${var.project_tag}"
+      "Environment", var.environment_tag,
+      "Project", var.project_tag
     )
   )
 }
