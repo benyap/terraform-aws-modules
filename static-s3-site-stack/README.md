@@ -31,6 +31,7 @@ module "MODULE_NAME" {
   error_document    = var.error_document
   routing_rules     = var.routing_rules
   secret            = var.secret
+}
 ```
 
 **NOTE**: Sometimes, the SSL certificate does not finish validating before the Cloudfront distribution is created, causing Terraform to abort with the following error:
