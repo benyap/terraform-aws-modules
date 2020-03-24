@@ -68,6 +68,20 @@ To resolve this issue, simply run `terraform apply` again.
 
 - `routing_rules`: Routing rules for the S3 website.
 
+## Outputs
+
+- `bucket_id`: The name of the bucket that holds the static site content.
+
+- `bucket_arn`: The ARN of the bucket that holds the static site content.
+
+- `bucket_hosted_zone_id`: The Route 53 Hosted Zone ID for this bucket's region.
+
+- `website_endpoint`: The S3 static site endpoint URL.
+
+- `certificate_arn`: The ARN of the certificate assigned to the Cloudfront distribution.
+
+- `cdn_domain_name`: The domain name of the Cloudfront distribution.
+
 ## Pre-requisites
 
 To apply or destroy this configuration, you require the permissions from the following configurations:

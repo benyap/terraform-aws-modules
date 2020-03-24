@@ -65,9 +65,7 @@ EOF
 
 - `bucket_hosted_zone_id`: The Route 53 Hosted Zone ID for this bucket's region.
 
-- `website_endpoint`: The website endpoint.
-
-- `website_domain`: The domain of the website endpoint.
+- `website_endpoint`: The S3 static site endpoint URL.
 
 - `name_tag`: The value of the 'Name' tag, constructed from the project, environment and domain.
 
