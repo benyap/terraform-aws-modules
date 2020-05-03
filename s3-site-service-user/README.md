@@ -52,7 +52,9 @@ To apply or destroy this configuration, you require the following permissions on
         "iam:ListAccessKeys",
         "iam:DeleteAccessKey",
         "iam:ListMFADevices",
-        "iam:DeleteLoginProfile"
+        "iam:DeleteLoginProfile",
+        "iam:ListSSHPublicKeys",
+        "iam:ListVirtualMFADevices"
       ],
       "Resource": ["*"]
     }
