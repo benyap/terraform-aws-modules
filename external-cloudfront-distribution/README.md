@@ -1,6 +1,6 @@
 # External Cloudfront distribution
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module provisions a Cloudfront distribution that points to an external origin.
 This module requires that you have provisioned an SSL certificate in ACM.

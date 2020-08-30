@@ -1,6 +1,6 @@
 # SES mail bucket
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module creates an S3 bucket to store emails, configured with the appropriate access for SES and lifecycle rules for object management.
 

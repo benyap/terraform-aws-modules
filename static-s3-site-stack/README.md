@@ -1,6 +1,6 @@
 # S3 static site stack
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module provisions the following resources to host a static site using a custom domain:
 

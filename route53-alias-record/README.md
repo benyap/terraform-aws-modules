@@ -1,6 +1,6 @@
 # Route53 Alias Record
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module creates an Alias record on Route53 that points to a Cloudfront distribution.
 This module requires that you have provisioned a Cloudfront distribution.

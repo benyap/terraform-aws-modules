@@ -1,6 +1,6 @@
 # SES receipt rule set
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module creates and activates an SES receipt rule set.
 

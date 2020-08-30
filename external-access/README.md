@@ -1,6 +1,6 @@
 # External Access
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module sets up the external trust relationships for this account.
 This allows users to assume a role within this account from an external account.

@@ -1,6 +1,6 @@
 # SES mail service user
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module sets creates a service user with the appropriate permissions to send emails from SES.
 

@@ -1,6 +1,6 @@
 # External site stack
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module provisions the following resources to route to an external origin using a custom domain:
 

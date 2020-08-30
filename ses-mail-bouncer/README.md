@@ -1,6 +1,6 @@
 # SES mail bouncer
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module configures SES to bounce emails on a custom domain, storing them in an **existing** S3 bucket.
 

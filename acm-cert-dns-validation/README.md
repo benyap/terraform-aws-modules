@@ -1,6 +1,6 @@
 # S3 Site bucket
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module provisions an SSL certificate for a domain record and validates it using DNS validation records.
 Note that this module will create a provider in the region `us-east-1`.

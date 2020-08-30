@@ -1,6 +1,6 @@
 # SES domain identity
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module sets up a domain identity for SES and verifies it on Route53.
 

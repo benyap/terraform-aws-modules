@@ -1,6 +1,6 @@
 # S3 resource bucket
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module creates and configures an S3 bucket that can be accessed using an IAM user.
 This is useful for provisioning a storage bucket that can be accessed via a backend.

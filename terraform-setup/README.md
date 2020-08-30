@@ -1,6 +1,6 @@
 # Terraform set up
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module sets up the scaffolding for Terraform to be able to manage your infrastructure using good AWS IAM practices. This module should be run **ONCE** using an IAM user with full administrator access, which can be deleted afterwards.
 

@@ -1,6 +1,6 @@
 # Cloudfront distribution
 
-_Terraform version: `v0.12.x`_
+_Terraform version: `v0.13.x`_
 
 This module provisions a Cloudfront distribution for a static S3 site.
 This module requires that you have provisioned a static site on S3 and an SSL certificate in ACM.
