@@ -6,25 +6,28 @@ variable "email_domain" {
   description = "The domain of the email this lambda will forward from"
 }
 
-variable "email_object_prefix" {
-  description = "The prefix to add to the object name in S3"
-  default     = "forwarded/"
+variable "rule_name" {
+  description = "A unique name for the resources created by this module"
 }
 
-variable "rule_name" {
-  description = "A unique name for the resources created by this rule"
+variable "email_object_prefix" {
+  description = "The prefix to add to the object name in S3"
 }
 
 variable "lambda_from_email" {
   description = "Forwarded emails will come from this verified address"
 }
 
-variable "lambda_forward_mapping" {
-  description = "JSON string of mapping of intended recipient address to forward destination address."
+variable "lambda_default_recipient" {
+  description = "If this is provided, unmapped emails will be sent to this address"
 }
 
 variable "lambda_prefix_mapping" {
-  description = "JSON string of mapping of intended recipient address to email subject prefix."
+  description = "JSON string of mapping of intended recipient address to email subject prefix"
+}
+
+variable "lambda_forward_mapping" {
+  description = "JSON string of mapping of intended recipient address to forward destination address"
 }
 
 variable "rule_set_name" {

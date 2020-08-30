@@ -1,78 +1,32 @@
 import * as AWS from "aws-sdk";
 import { Context, Callback } from "aws-lambda";
 
-import { Config, SESEvent, Data, EmailToForward } from "./types";
+import { SESEvent, EmailToForward } from "./types";
 
 /**
  * Handler function to be invoked by AWS Lambda with an inbound SES email as the event.
- * @param event the Lambda event from inbound email received by AWS SES.
- * @param context the Lambda context object.
- * @param callback the Lambda callback object.
  */
-export const handler = (
+export const handler = async (
   event: SESEvent,
   context: Context,
   callback: Callback
 ) => {
   // Extract configuration settings
-  const config: Config = {
-    fromEmail: process.env.fromEmail || "",
-    emailBucket: process.env.emailBucket || "",
-    emailKeyPrefix: process.env.emailKeyPrefix || "",
-    prefixMapping: JSON.parse(process.env.prefixMapping || "{}"),
-    forwardMapping: JSON.parse(process.env.forwardMapping || "{}")
-  };
+  const {
+    bucket = "",
+    objectKeyPrefix = "",
+    fromEmail = "",
+    defaultRecipient = "",
+    prefixMapping: rawPrefixMapping = "{}",
+    forwardMapping: rawForwardMapping = "{}",
+  } = process.env;
 
-  // Set up data to be passed to each step
-  let data: Data = {
-    event,
-    context,
-    callback,
-    config,
-    log: console.log,
-    ses: new AWS.SES(),
-    s3: new AWS.S3({ signatureVersion: "v4" })
-  };
+  const prefixMapping: Record<string, string> = JSON.parse(rawPrefixMapping);
+  const forwardMapping: Record<string, string> = JSON.parse(rawForwardMapping);
 
-  data.log({
-    level: "info",
-    message: config
-  });
-
-  // Run steps
-  [parseEvent, transformRecipients, fetchMessage, processMessage, sendMessage]
-    // Chain promises together!
-    .reduce(async (chain, promise) => {
-      if (typeof promise !== "function") {
-        return Promise.reject(new Error(`Error: invalid promise: ${promise}`));
-      }
-      return chain.then(promise);
-    }, Promise.resolve(data))
-    .then(data => {
-      data.log({
-        level: "info",
-        message: "Process finished successfully."
-      });
-      return data.callback();
-    })
-    .catch(error => {
-      data.log({
-        level: "error",
-        message: error.message,
-        error: error,
-        stack: error.stack
-      });
-      return data.callback(new Error("Error: step returned error."));
-    });
-};
-
-/**
- * Parse the SES event record
- *
- * Populates the `email` and `recipients` fields in `data`.
- */
-export const parseEvent = async (data: Data) => {
-  const { event, log } = data;
+  //
+  // Parse SES event
+  //
 
   // Validate characteristics of a SES event record.
   if (
@@ -83,185 +37,124 @@ export const parseEvent = async (data: Data) => {
     event.Records[0].eventSource !== "aws:ses" ||
     event.Records[0].eventVersion !== "1.0"
   ) {
-    log({
+    const message = `Received invalid SES message.`;
+    console.log({
       level: "error",
-      step: "parseEvent",
-      message: "parseEvent() received invalid SES message:",
-      event: JSON.stringify(data.event)
+      message,
+      event: JSON.stringify(event),
     });
-    return Promise.reject(new Error("Error: Received invalid SES message."));
+    return callback(new Error(message));
   }
 
-  data.email = data.event.Records[0].ses.mail;
-  data.recipients = data.event.Records[0].ses.receipt.recipients;
+  const emailData = event.Records[0].ses.mail;
+  const recipients = event.Records[0].ses.receipt.recipients;
 
-  return data;
-};
+  //
+  // Fetch message data from S3.
+  //
 
-/**
- * Map the original recipients to the desired forwarding destinations.
- *
- * Populates the `emailsToForward` field in `data`.
- */
-export const transformRecipients = async (data: Data) => {
-  const { recipients = [], log } = data;
+  if (!emailData) {
+    const message = `Received empty mail data object.`;
+    console.log({
+      level: "error",
+      message,
+      event: JSON.stringify(event),
+    });
+    return callback(new Error(message));
+  }
 
-  // Map each recipient to a new email.
-  data.emailsToForward = recipients
-    .map(email => {
-      const { forwardMapping, prefixMapping } = data.config;
-      const emailKey = email.toLowerCase();
+  const s3 = new AWS.S3({ signatureVersion: "v4" });
 
-      // Create an email to forward
-      let forward: EmailToForward = {
-        originalRecipient: emailKey,
-        recipients: []
-      };
+  const key = `${objectKeyPrefix}${emailData.messageId}`;
+  const source = `${bucket}/${key}`;
 
-      log({
+  console.log({
+    level: "info",
+    message: `Fetching email ${emailData.messageId} body at s3://${source}`,
+  });
+
+  let emailBodyData: string | undefined = undefined;
+
+  try {
+    const result = await s3
+      .getObject({
+        Bucket: bucket,
+        Key: key,
+      })
+      .promise();
+    emailBodyData = result.Body?.toString();
+  } catch (error) {
+    const message = `getObject() returned error for ${source}`;
+    console.log({
+      level: "error",
+      message,
+      error,
+      stack: error.stack,
+    });
+    return callback(new Error(message));
+  }
+
+  if (!emailBodyData) {
+    const message = `Email ${emailData.messageId} body contains no data.`;
+    console.log({
+      level: "error",
+      message,
+    });
+    return callback(new Error(message));
+  }
+
+  //
+  // Map original recipients to desired forwarding destinations.
+  //
+
+  const emailsToForward: EmailToForward[] = recipients
+    .map((rawEmail) => {
+      const email = rawEmail.toLowerCase();
+      let recipients: string[] = [];
+      let prefix = "[FWD]";
+
+      // Get mapping if it exists
+      const mappedRecipient = forwardMapping[email];
+      if (typeof mappedRecipient !== "undefined")
+        recipients = recipients.concat(mappedRecipient);
+      else if (defaultRecipient) recipients.push(defaultRecipient);
+
+      // Get prefix if it exists
+      const mappedPrefix = prefixMapping[email];
+      if (typeof mappedPrefix !== "undefined") prefix = mappedPrefix;
+
+      console.log({
         level: "info",
-        step: "transformRecipients",
-        message: `Transforming recipients for ${emailKey}.`
+        message: `Forwarding email from ${email} to [${recipients.join(", ")}]`,
       });
 
-      /**
-       * Use a given key to get an email's mapped destination.
-       * @param key a key that is known to have a match in `forwardMapping`
-       */
-      const addEmailWithKey = (key: string) => {
-        // Use key to get mapping
-        forward.recipients = forward.recipients.concat(forwardMapping[key]);
-        // Check for a matching prefix
-        if (prefixMapping[key]) {
-          forward.prefix = prefixMapping[key];
-        }
-        log({
-          level: "info",
-          step: "transformRecipients",
-          message: `Adding forwarding from ${key} to [${forwardMapping[key]}]`
-        });
+      return {
+        originalRecipient: email,
+        prefix,
+        recipients,
       };
-
-      // Check if the email has a direct match
-      if (forwardMapping[emailKey]) {
-        addEmailWithKey(emailKey);
-      }
-
-      // Check if there are domain or user matches
-      else {
-        let token: string = "";
-        const index = emailKey.lastIndexOf("@");
-
-        // If there is no '@' in the email, use the key as the 'user'
-        if (index === -1) token = emailKey;
-        // Otherwise, use it as a domain
-        else token = emailKey.slice(index);
-
-        // Add destination if there is a match
-        if (forwardMapping[token]) {
-          addEmailWithKey(token);
-        }
-      }
-
-      return forward;
     })
     // Filter out any emails that have no recipients
-    .filter(email => email.recipients.length > 0);
+    .filter((email) => email.recipients.length > 0);
 
-  return data;
-};
+  if (emailsToForward.length === 0) {
+    const message = `No valid recipients for forward email ${emailData.messageId} to.`;
+    console.log({
+      level: "info",
+      message,
+    });
+    return callback(new Error(message));
+  }
 
-/**
- * Fetch message data from S3.
- *
- * Populates the `emailData` field in `data`.
- */
-export const fetchMessage = async (data: Data) => {
-  const {
-    config: { emailBucket, emailKeyPrefix },
-    email,
-    log,
-    s3
-  } = data;
+  //
+  // Process message data.
+  // Maps recipients to appropriate forwarding addresses and updates headers appropriately for forwarding.
+  //
 
-  const key = `${emailKeyPrefix}${email!.messageId}`;
-  const source = `${emailBucket}/${key}`;
-
-  log({
-    level: "info",
-    step: "fetchMessage",
-    message: `Fetching email at s3://${source}`
-  });
-
-  return new Promise<Data>((resolve, reject) => {
-    // Copying email object to ensure read permission
-    s3.copyObject(
-      {
-        Bucket: emailBucket,
-        CopySource: source,
-        Key: key,
-        ACL: "private",
-        ContentType: "text/plain",
-        StorageClass: "STANDARD"
-      },
-      error => {
-        // Reject promise if there was an error
-        if (error) {
-          log({
-            level: "error",
-            step: "fetchMessage",
-            message: `copyObject() returned error for ${source}`,
-            error,
-            stack: error.stack
-          });
-          return reject(
-            new Error(
-              `Error: could not make readable copy of email at ${source}.`
-            )
-          );
-        }
-
-        // Load the raw email from S3
-        s3.getObject({ Bucket: emailBucket, Key: key }, (error, result) => {
-          if (error) {
-            log({
-              level: "error",
-              step: "fetchMessage",
-              message: `getObject() returned error for ${source}`,
-              error,
-              stack: error.stack
-            });
-            return reject(
-              new Error(
-                `Error: failed to load message body from S3 of email at ${source}.`
-              )
-            );
-          }
-
-          // Pass on email data.
-          data.emailData = result.Body!.toString();
-          return resolve(data);
-        });
-      }
-    );
-  });
-};
-
-/**
- * Process message data. Maps recipients to appropriate forwarding addresses
- * and updates headers appropriately for forwarding.
- */
-export const processMessage = async (data: Data) => {
-  const {
-    emailData = "",
-    config: { fromEmail },
-    emailsToForward = [],
-    log
-  } = data;
-
-  let match = emailData.match(/^((?:.+\r?\n)*)(\r?\n(?:.*\s+)*)/m);
-  let header = match && match[1] ? match[1] : data.emailData!;
-  const body = match && match[2] ? match[2] : "";
+  // Separate the email body's headers from its content
+  let match = emailBodyData.match(/^((?:.+\r?\n)*)(\r?\n(?:.*\s+)*)/m);
+  let header = match && match[1] ? match[1] : emailBodyData;
+  const content = match && match[2] ? match[2] : "";
 
   // Add "Reply-To:" with the "From" address if it doesn't already exists
   if (!/^Reply-To: /im.test(header)) {
@@ -269,17 +162,15 @@ export const processMessage = async (data: Data) => {
     const from = match && match[1] ? match[1] : "";
     if (from) {
       header = header + "Reply-To: " + from;
-      log({
+      console.log({
         level: "info",
-        step: "processMessage",
-        message: "Added Reply-To address of " + from
+        message: "Added Reply-To address of " + from,
       });
     } else {
-      log({
+      console.log({
         level: "info",
-        step: "processMessage",
         message:
-          "Reply-To address not added because 'From' address was not properly extracted."
+          "Reply-To address not added because 'From' address was not properly extracted.",
       });
     }
   }
@@ -308,7 +199,7 @@ export const processMessage = async (data: Data) => {
   header = header.replace(/^DKIM-Signature: .*\r?\n(\s+.*\r?\n)*/gm, "");
 
   // Customise data for each email that needs to be forwarded.
-  data.emailsToForward = emailsToForward.map(email => {
+  emailsToForward.forEach((email) => {
     let finalHeader = header;
 
     // Check if we need to customise the prefix
@@ -320,79 +211,57 @@ export const processMessage = async (data: Data) => {
     }
 
     // Put data into email object
-    email.data = finalHeader + body;
-
-    return email;
+    email.data = finalHeader + content;
   });
 
-  return data;
-};
+  //
+  // Send message using AWS SMS.
+  //
 
-export const sendMessage = async (data: Data) => {
-  const {
-    log,
-    emailsToForward = [],
-    ses,
-    config: { fromEmail }
-  } = data;
-
-  log({
+  console.log({
     level: "info",
-    step: "sendMessage",
     message: `Sending ${emailsToForward.length} email${
       emailsToForward.length === 1 ? "" : "s"
-    } via SES.`
+    } via SES.`,
   });
 
-  await Promise.all(
-    emailsToForward.map(
-      // Send each email that needs to be forwarded
-      email =>
-        new Promise((resolve, reject) => {
-          ses.sendRawEmail(
-            {
-              Destinations: email.recipients,
-              Source: fromEmail,
-              RawMessage: {
-                Data: email.data || ""
-              }
-            },
-            (error, result) => {
-              // Check for error
-              if (error) {
-                log({
-                  level: "error",
-                  step: "sendMessage",
-                  message: `Failed to forward email from ${
-                    email.originalRecipient
-                  } to [${email.recipients.join(", ")}].`,
-                  error: error,
-                  stack: error.stack
-                });
-                return reject(
-                  new Error(
-                    `Failed to forward email from ${
-                      email.originalRecipient
-                    } to [${email.recipients.join(", ")}].`
-                  )
-                );
-              }
+  const ses = new AWS.SES();
 
-              // Log successful message
-              log({
-                level: "info",
-                step: "sendMessage",
-                message: `Email to ${
-                  email.originalRecipient
-                } forwarded to [${email.recipients.join(", ")}].`,
-                result: result
-              });
-              resolve();
-            }
-          );
-        })
-    )
+  await Promise.all(
+    // Send each email that needs to be forwarded
+    emailsToForward.map(async (email) => {
+      try {
+        const result = await ses
+          .sendRawEmail({
+            Destinations: email.recipients,
+            Source: fromEmail,
+            RawMessage: {
+              Data: email.data || "",
+            },
+          })
+          .promise();
+        console.log({
+          level: "info",
+          step: "sendMessage",
+          message: `Email to ${
+            email.originalRecipient
+          } forwarded to [${email.recipients.join(", ")}].`,
+          result: result,
+        });
+      } catch (error) {
+        const message = `Failed to forward email from ${
+          email.originalRecipient
+        } to [${email.recipients.join(", ")}].`;
+        console.log({
+          level: "error",
+          message,
+          error: error,
+          stack: error.stack,
+        });
+        return callback(new Error(message));
+      }
+    })
   );
 
-  return data;
+  return callback();
 };

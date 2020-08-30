@@ -21,23 +21,25 @@ module "MODULE_NAME" {
 
   bucket_name   = "${var.bucket_name}"
   email_domain  = "${var.email_domain}"
-  rule_name     = "${var.rule_name}"
 
-  email_object_prefix     = "forwarded/"
+  rule_name           = "${var.rule_name}"
+  email_object_prefix = "forwarded/"
+
   lambda_from_email       = "forwarded@${var.domain_name}"
-
-  lambda_forward_mapping = "${jsonencode({
-    "help@${local.prod_domain}"     = "${var.forward_email}",
-    "admin@${local.prod_domain}"    = "${var.forward_email}"
-  })}"
-
-  lambda_prefix_mapping = "${jsonencode({
-    "help@${var.domain_name}"     = "[HELP]",
-    "admin@${var.domain_name}"    = "[ADMIN]"
-  })}"
+  lambda_forward_mapping = jsonencode(map(
+    "contact@${local.prod_domain}", "${var.forward_email}",
+    "help@${local.prod_domain}", "${var.forward_email}"
+  ))
+  lambda_prefix_mapping = jsonencode(map(
+    "contact@${local.prod_domain}", "[CONTACT]",
+    "help@${local.prod_domain}", "[HELP]"
+  ))
 
   rule_set_name       = "${var.rule_set_name}"
-  rule_set_recipients = ["test@${var.domain_name}"]
+  rule_set_recipients = [
+    "contact@${local.prod_domain}",
+    "help@${local.prod_domain}"
+  ]
 
   project_tag       = "${var.project_tag}"
   environment_tag   = "${var.environment_tag}"
@@ -69,6 +71,8 @@ module "MODULE_NAME" {
 - `email_object_prefix`: (OPTIONAL) The prefix to add to the object name in S3 (default is "forwarded/").
 
 - `lambda_prefix_mapping`: (OPTIONAL) JSON string of mapping of intended recipient address to email subject prefix.
+
+- `lambda_default_recipient`: (OPTIONAL) If this is provided, unmapped emails will be sent to this address.
 
 - `after`: (OPTIONAL) The name of the rule to position this rule after (default is "").
 

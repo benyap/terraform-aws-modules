@@ -88,11 +88,12 @@ resource "aws_lambda_function" "fwd-lambda" {
 
   environment {
     variables = {
-      emailBucket    = var.bucket_name
-      emailKeyPrefix = var.email_object_prefix
-      fromEmail      = var.lambda_from_email
-      prefixMapping  = var.lambda_prefix_mapping
-      forwardMapping = var.lambda_forward_mapping
+      bucket           = var.bucket_name
+      objectKeyPrefix  = var.email_object_prefix
+      fromEmail        = var.lambda_from_email
+      defaultRecipient = var.lambda_default_recipient
+      prefixMapping    = var.lambda_prefix_mapping
+      forwardMapping   = var.lambda_forward_mapping
     }
   }
 
@@ -135,5 +136,10 @@ resource "aws_ses_receipt_rule" "store-and-forward-email" {
     function_arn    = aws_lambda_function.fwd-lambda.arn
     invocation_type = "Event"
     position        = 2
+  }
+
+  stop_action {
+    scope    = "RuleSet"
+    position = 3
   }
 }
