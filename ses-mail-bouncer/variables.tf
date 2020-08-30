@@ -2,17 +2,8 @@ variable "email_domain" {
   description = "The domain of the email to bounce on"
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket that bounced emails will be placed in"
-}
-
 variable "rule_name" {
   description = "A unique name for the resources created by this rule"
-}
-
-variable "email_object_prefix" {
-  description = "The prefix to add to the object name in S3"
-  default     = "bounced/"
 }
 
 variable "rule_set_name" {
@@ -21,7 +12,7 @@ variable "rule_set_name" {
 
 variable "bounce_recipients" {
   description = "The list of recipients to bounce for the rule set"
-  type        = list
+  type        = list(string)
 }
 
 variable "bounce_message" {

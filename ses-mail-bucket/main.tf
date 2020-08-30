@@ -38,7 +38,7 @@ resource "aws_s3_bucket" "email-bucket" {
   policy = data.aws_iam_policy_document.bucket-policy-document.json
 
   lifecycle_rule {
-    id      = "email-rule"
+    id      = "email-lifecycle-rule"
     enabled = true
 
     transition {
@@ -49,15 +49,6 @@ resource "aws_s3_bucket" "email-bucket" {
     transition {
       days          = 60
       storage_class = "ONEZONE_IA"
-    }
-
-    transition {
-      days          = 90
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = 365
     }
   }
 
