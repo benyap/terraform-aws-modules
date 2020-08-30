@@ -26,14 +26,14 @@ module "MODULE_NAME" {
   email_object_prefix = "forwarded/"
 
   lambda_from_email       = "forwarded@${var.domain_name}"
-  lambda_forward_mapping = jsonencode(map(
-    "contact@${local.prod_domain}", "${var.forward_email}",
-    "help@${local.prod_domain}", "${var.forward_email}"
-  ))
-  lambda_prefix_mapping = jsonencode(map(
-    "contact@${local.prod_domain}", "[CONTACT]",
-    "help@${local.prod_domain}", "[HELP]"
-  ))
+  lambda_forward_mapping = jsonencode({
+    "contact@${local.prod_domain}" = "${var.forward_email}",
+    "help@${local.prod_domain}" = "${var.forward_email}"
+  })
+  lambda_prefix_mapping = jsonencode({
+    "contact@${local.prod_domain}" = "[CONTACT]",
+    "help@${local.prod_domain}" = "[HELP]"
+  })
 
   rule_set_name       = "${var.rule_set_name}"
   rule_set_recipients = [
