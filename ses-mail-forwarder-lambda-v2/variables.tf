@@ -20,14 +20,17 @@ variable "lambda_from_email" {
 
 variable "lambda_default_recipient" {
   description = "If this is provided, unmapped emails will be sent to this address"
+  default     = ""
 }
 
 variable "lambda_prefix_mapping" {
   description = "JSON string of mapping of intended recipient address to email subject prefix"
+  default     = "{}"
 }
 
 variable "lambda_forward_mapping" {
   description = "JSON string of mapping of intended recipient address to forward destination address"
+  default     = "{}"
 }
 
 variable "rule_set_name" {
