@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.39",
     "@types/node": "13.1.6",
-    "aws-sdk": "2.601.0",
+    "aws-sdk": "2.814.0",
     "rimraf": "3.0.0",
     "typescript": "3.7.4"
   }
